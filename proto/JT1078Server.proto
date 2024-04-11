@@ -1,0 +1,135 @@
+//使用 proto3 语法 ,未指定则使用proto2
+syntax = "proto3";
+
+//生成 proto 文件名
+option java_outer_classname="JT1087ServerProto";
+
+message JT1087Protocol {
+    string msgId = 1; //命令id
+    string terminalPhone = 2;//设备号
+    string  mainRoleId = 3;//所属公司Id
+    oneof dataBody{
+		Data0x9101 data0x9101 =4;
+        Data0x9102 data0x9102 =5;
+		Data0x9105 data0x9105 =6;
+        Data0x9201 data0x9201 =7;
+        Data0x9202 data0x9202 =8;
+        Data0x9205 data0x9205 =9;
+        Data0x9206 data0x9206 =10;
+        Data0x9207 data0x9207 =11;
+        Data0x9301 data0x9301 =12;
+        Data0x9302 data0x9302 =13;
+    }
+}
+
+message Data0x9101{
+    string ip =1;  //服务器IP地址
+    string tcpPort =2;  //实时视频服务器TCP端口号
+    string udpPort =3;  //实时视频服务器UDP端口号
+    int32 channelNo =4; //逻辑通道号
+    int32 mediaType =5; //数据类型：0.音视频 1.视频 2.双向对讲 3.监听 4.中心广播 5.透传
+    int32 streamType =6; //码流类型：0.主码流 1.子码流
+    string msgId = 7; //命令id
+    string terminalPhone = 8;//设备号
+    string mainRoleId = 9;//所属公司Id
+}
+
+message Data0x9102{
+    string msgId = 1; //命令id
+    string terminalPhone = 2;  //设备号
+    string mainRoleId = 3;   //所属公司Id
+    int32 channelNo =4;   //逻辑通道号
+    int32 command =5;    // 控制指令
+    int32 closeType =6;  // 关闭音视频类型
+    int32 streamType =7;  //切换码流类型
+}
+
+message Data0x9105{
+    string msgId = 1; //命令id
+    string terminalPhone = 2;  //设备号
+    string mainRoleId = 3;   //所属公司Id
+    int32 channelNo = 4; //逻辑通道号
+    string packetLossRate = 5; //丢包率 数值乘以 100 之后取整数部分
+}
+
+message Data0x9201{
+    string msgId = 1; //命令id
+    string terminalPhone = 2;  //设备号
+    string mainRoleId = 3;   //所属公司Id
+    string ip =4; //服务器IP地址
+    string tcpPort =5;   //TCP端口号
+    string udpPort =6;   //UDP端口号
+    int32 channelNo =7;   //逻辑通道号
+    int32 mediaType =8;    //音视频资源类型
+    int32 streamType =9;   //码流类型
+    int32 storageType = 10;  //存储器类型
+    int32 playbackMode = 11;  //回放方式
+    int32 playbackSpeed =12; //快进或快退倍数
+    string startTime =13;  //开始时间 YYMMDDHHMMSS
+    string endTime =14;   //结束时间 YYMMDDHHMMSS
+}
+
+message Data0x9202{
+    string msgId = 1; //命令id
+    string terminalPhone = 2;  //设备号
+    string mainRoleId = 3;   //所属公司Id
+    int32 channelNo =4;    //逻辑通道号
+    int32 playbackMode =5;   //回放控制
+    int32 playbackSpeed =6;  //快进或快退倍数
+    string playbackTime =7;  //拖动回放位置
+}
+
+message Data0x9205{
+    string msgId = 1; //命令id
+    string terminalPhone = 2;  //设备号
+    string mainRoleId = 3;   //所属公司Id
+    int32 channelNo =4;  //逻辑通道号
+    string startTime =5;  //开始时间
+    string endTime =6;  //结束时间
+    string warnBit1 =7;  //报警标志
+    string warnBit2 =8;  //报警标志
+    int32 mediaType =9;  //音视频资源类型
+    int32 streamType =10;  //码流类型
+    int32 storageType =11; //存储器类型
+}
+message Data0x9206{
+    string ip = 1;  //服务器地址
+    string port =2;  //端口
+    string username =3;  //用户名
+    string password =4;  //密码
+    string path =5;   //文件上传路径
+    int32 channelNo =6;  //逻辑通道号
+    string startTime =7;  //开始时间
+    string endTime =8;   //结束时间
+    string warnBit1 =9;   //报警标志0~31
+    string warnBit2 =10;   //报警标志
+    int32 mediaType =11;  //音视频资源类型
+    int32 streamType =12;  //码流类型
+    int32 storageType =13; //存储位置
+    int32 condition =14; //任务执行条件
+}
+
+message Data0x9207{
+    string msgId = 1; //命令id
+    string terminalPhone = 2;  //设备号
+    string mainRoleId = 3;   //所属公司Id
+    int32 responseSerialNo =4;  //应答流水号
+    int32 command =5;  //上传控制
+}
+
+message Data0x9301 {
+    string msgId = 1; //命令id
+    string terminalPhone = 2;  //设备号
+    string mainRoleId = 3;   //所属公司Id
+    int32 channelNo =4;  //逻辑通道号
+    int32 direction =5;  //方向
+    int32 speed =6; //速度
+}
+
+message Data0x9302 {
+    string msgId = 1; //命令id
+    string terminalPhone = 2;  //设备号
+    string mainRoleId = 3;   //所属公司Id
+    int32 channelNo =4;  //逻辑通道号
+    int32 param =5;  //9302.云台调整焦距控制 9303.云台调整光圈控制 9304.云台雨刷控制 9305.红外补光控制 9306.云台变倍控制
+}
