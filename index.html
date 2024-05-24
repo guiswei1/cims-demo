@@ -6,7 +6,6 @@
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/sockjs.js"></script>
     <script src="js/stomp.js"></script>
-    <script type="text/javascript" src="./js/JT808js.js"></script>
     <script>
         var stompClient, socket;
 
@@ -85,1477 +84,727 @@
 
         // 发送给自己
         function sendMsg() {
-            let protocol = new proto.Protocol();
-            protocol.setMsgid("0x8103");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid("1");
+            var t8103 = {
+                "mainRoleId": "1",
+                "msgId": "0x8103",
+                "terminalPhones": ["005766002618"],
+                "terminalSettings": [{
+                    "instructCode": "0x0001",
+                    "parameterType": "UINT32",
+                    "values": "5"
+                }, {"instructCode": "0x0002", "parameterType": "UINT32", "values": "7"}, {
+                    "instructCode": "0x0013",
+                    "parameterType": "STRING",
+                    "values": "123.160.11.187"
+                }, {"instructCode": "0x0084", "parameterType": "BYTE", "values": "92"}]
+            };
 
-            let data0x8103 = new proto.Data0x8103();
-
-            let terminalSettings1 = new proto.Data0x8103.TerminalSettings();
-
-            terminalSettings1.setInstructcode("0x0001");
-            terminalSettings1.setParametertype("UINT32");
-            terminalSettings1.setValues("5");
-
-            data0x8103.addTerminalsettings(terminalSettings1);
-
-
-            let terminalSettings2 = new proto.Data0x8103.TerminalSettings();
-            terminalSettings2.setInstructcode("0x0002");
-            terminalSettings2.setParametertype("UINT32");
-            terminalSettings2.setValues("7");
-            data0x8103.addTerminalsettings(terminalSettings2);
-
-            let terminalSettings3 = new proto.Data0x8103.TerminalSettings();
-            terminalSettings3.setInstructcode("0x0013");
-            terminalSettings3.setParametertype("STRING");
-            terminalSettings3.setValues("123.160.11.187");
-            data0x8103.addTerminalsettings(terminalSettings3);
-
-            let terminalSettings4 = new proto.Data0x8103.TerminalSettings();
-            terminalSettings4.setInstructcode("0x0084");
-            terminalSettings4.setParametertype("BYTE");
-            terminalSettings4.setValues("92");
-            data0x8103.addTerminalsettings(terminalSettings4);
-
-            protocol.setData0x8103(data0x8103);
-            // let terminalSettings5 = new proto.TerminalSettings();
-            // terminalSettings5.setInstructcode("0x0110");
-            // terminalSettings5.setParametertype("BYTE[8]");
-            // terminalSettings5.setValues("1");
-            // protocol.addSettings(terminalSettings5);
-
-            console.log("protocol" + protocol.toObject());
-            let d = protocol.serializeBinary();
-            console.log("d" + d);
-            let e = new proto.Protocol.deserializeBinary(d);
-            console.log("e" + e.getMsgid())
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            /**
-             *  1. 第一个参数 url 为服务器 controller中 @MessageMapping 中匹配的URL，字符串，必须参数；
-             *  2. headers 为发送信息的header，json格式，JavaScript 对象，
-             *     可选参数,可以携带消息头信息，也可以做事务，如果没有，传{}
-             *  3. body 为发送信息的 body，字符串，可选参数
-             */
-            console.log("serializeBinary" + protocol.serializeBinary())
-            stompClient.send("/cims-gateway/0x8103", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8103", {}, JSON.stringify(t8103));
         }
 
         // 发送给自己
         function sendMsg1() {
-            let protocol = new proto.Protocol();
-            protocol.setMsgid("0x8104");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid("1");
-
-            console.log("protocol" + protocol.toObject());
-            let d = protocol.serializeBinary();
-            console.log("d" + d);
-            let e = new proto.Protocol.deserializeBinary(d);
-            console.log("e" + e.getMsgid())
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8104", {}, jsonString);
+            var t8104 = {
+                "mainRoleId": "1",
+                "msgId": "0x8104",
+                "terminalPhones": ["005766002618"]
+            };
+            stompClient.send("/cims-gateway/0x8104", {}, JSON.stringify(t8104));
         }
 
         // 发送给自己
         function sendMsg2() {
-            let protocol = new proto.Protocol();
-            protocol.setMsgid("0x8106");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid("1");
-
-
-
-            let data0x8103 = new proto.Data0x8103();
-
-            let terminalSettings1 = new proto.Data0x8103.TerminalSettings();
-
-            terminalSettings1.setInstructcode("0x0001");
-            data0x8103.addTerminalsettings(terminalSettings1);
-
-
-            let terminalSettings2 = new proto.Data0x8103.TerminalSettings();
-            terminalSettings2.setInstructcode("0x0002");
-            data0x8103.addTerminalsettings(terminalSettings2);
-
-            let terminalSettings3 = new proto.Data0x8103.TerminalSettings();
-            terminalSettings3.setInstructcode("0x0013");
-            data0x8103.addTerminalsettings(terminalSettings3);
-
-            let terminalSettings4 = new proto.Data0x8103.TerminalSettings();
-            terminalSettings4.setInstructcode("0x0084");
-            data0x8103.addTerminalsettings(terminalSettings4);
-
-            protocol.setData0x8103(data0x8103);
-
-            let d = protocol.serializeBinary();
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8106", {}, jsonString);
+            var t8106 = {
+                "mainRoleId": "1",
+                "msgId": "0x8106",
+                "terminalPhones": ["005766002618"],
+                "instructCodes": "0x0001,0x0002,0x0013,0x0084"
+            };
+            stompClient.send("/cims-gateway/0x8106", {}, JSON.stringify(t8106));
         }
 
         // 发送给自己
         function sendMsg3() {
-            let protocol = new proto.Protocol();
-            protocol.setMsgid("0x8105");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid("1");
 
-            let data0x8105 = new proto.Data0x8105();
-            data0x8105.setType(2);
+            var t8105 = {
+                "msgId": "0x8105",
+                "terminalPhones": ["005766002618"],
+                "mainRoleId": "1",
+                "type": 2,
+                "connectionControl": 0,
+                "dialName": "10.0.0.172",
+                "dialUserName": "test1",
+                "dialPassword": "test1231",
+                "address": "南京市",  //地址
+                "tcpPort": 8910,    //TCP端口
+                "udpPort": 1211,    //UDP端口
+                "companyId": "zs003",  //制造商ID
+                "spAuthCode": "3211", //监管平台鉴权码
+                "hardwareVersion": "yingjian002",//硬件版本
+                "firmwareVersion": "gujian00002",  //固件版本
+                "urlAddress": "192.168.1.15",   //URL地址
+                "limitTime": 3   //
+            }
 
-            let commandparameters = new proto.Data0x8105.CommandParameters();
-            commandparameters.setConnectioncontrol(1);
-            commandparameters.setDialname("10.0.0.172");
-            commandparameters.setDialusername("test1");
-            commandparameters.setDialpassword("test1231");
-            commandparameters.setAddress("南京市");
-            commandparameters.setTcpport("8910");
-            commandparameters.setUdpport("1211");
-            commandparameters.setCompanyid("zs003");
-            commandparameters.setSpauthcode("3211");
-            commandparameters.setHardwareversion("yingjian002");
-            commandparameters.setFirmwareversion("gujian00002");
-            commandparameters.setUrladdress("192.168.1.15");
-            commandparameters.setLimittime(3);
-            data0x8105.setCommandparameters(commandparameters);
-
-            protocol.setData0x8105(data0x8105);
-            let d = protocol.serializeBinary();
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8105", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8105", {}, JSON.stringify(t8105));
         }
 
-        // 发送给自己
+
         function sendMsg4() {
-            let protocol = new proto.Protocol();
-            protocol.setMsgid("0x8107");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid("1");
+            var t8107 = {
+                "mainRoleId": "1",
+                "msgId": "0x8107",
+                "terminalPhones": ["005766002618"]
+            };
 
-            console.log("protocol" + protocol.toObject());
-            let d = protocol.serializeBinary();
-            console.log("d" + d);
-            let e = new proto.Protocol.deserializeBinary(d);
-            console.log("e" + e.getMsgid())
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8107", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8107", {}, JSON.stringify(t8107));
         }
 
         function sendMsg5() {
-            let protocol = new proto.Protocol();
-            protocol.setMsgid("0x8108");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid("1");
-
-            let data0x8108 = new proto.Data0x8108();
-            data0x8108.setType(0)
-            data0x8108.setCompanyid("zs003");
-            data0x8108.setUplength(100);
-            data0x8108.setVersion("1.12");
-            protocol.setData0x8108(data0x8108);
-            console.log("protocol" + protocol.toObject());
-            let d = protocol.serializeBinary();
-            console.log("d" + d);
-            let e = new proto.Protocol.deserializeBinary(d);
-            console.log("e" + e.getMsgid())
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8108", {}, jsonString);
+            let t8108 = {
+                "companyId": "zs003",
+                "mainRoleId": "1",
+                "msgId": "0x8108",
+                "terminalPhones": ["005766002618"],
+                "type": 0,
+                "upLength": 100,
+                "version": "1.12"
+            };
+            stompClient.send("/cims-gateway/0x8108", {}, JSON.stringify(t8108));
         }
 
         function sendMsg6() {
-            let protocol = new proto.Protocol();
-            protocol.setMsgid("0x8201");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid("1");
+            var t8201 = {
+                "mainRoleId": "1",
+                "msgId": "0x8201",
+                "terminalPhones": ["005766002618"]
+            };
 
-            console.log("protocol" + protocol.toObject());
-            let d = protocol.serializeBinary();
-            console.log("d" + d);
-            let e = new proto.Protocol.deserializeBinary(d);
-            console.log("e" + e.getMsgid())
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8201", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8201", {}, JSON.stringify(t8201));
         }
 
         function sendMsg7() {
-            let protocol = new proto.Protocol();
-            protocol.setMsgid("0x8202");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid("1");
-            let data0x8202 = new proto.Data0x8202();
-            data0x8202.setTimeinterval(5);
-            data0x8202.setValiditytime(10);
-            protocol.setData0x8202(data0x8202);
-            console.log("protocol" + protocol.toObject());
-            let d = protocol.serializeBinary();
-            console.log("d" + d);
-            let e = new proto.Protocol.deserializeBinary(d);
-            console.log("e" + e.getMsgid())
+            let T8202 = {
+                "mainRoleId": "1",
+                "msgId": "0x8202",
+                "terminalPhones": ["005766002618"],
+                "timeInterval": 5,
+                "validityTime": 10
+            };
 
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
 
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8202", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8202", {}, JSON.stringify(T8202));
         }
 
         function sendMsg8() {
-            let data0x8203 = new proto.Data0x8203();
-            data0x8203.setMsgid("0x8203");
-            data0x8203.setTerminalphone("005766002618");
-            data0x8203.setMainroleid("1");
-            data0x8203.setSeq(1);
-           let type = new proto.Data0x8203.Type();
-            type.setEmergencyalarm(true);
-            type.setDangerwarning(false);
-            type.setAlarmforentryandexitareas(true);
-            type.setAlarmforentryandexitroutes(true);
-            type.setAlarmiftoolong(false);
-            type.setIllegalvehicleignitionalarm(true);
-            type.setVehicleillegaldisplacementalarm(true);
-            data0x8203.setType(type);
-            console.log("protocol" + data0x8203.toObject());
-            let d = data0x8203.serializeBinary();
-            console.log("d" + d);
+            let T8203 = {
+                "mainRoleId": "1",
+                "msgId": "0x8203",
+                "seq": 1,
+                "terminalPhones": ["005766002618"],
+                "type": {
+                    "alarmForEntryAndExitAreas": true,
+                    "alarmForEntryAndExitRoutes": false,
+                    "alarmIfTooLong": true,
+                    "dangerWarning": false,
+                    "emergencyAlarm": false,
+                    "illegalVehicleIgnitionAlarm": true,
+                    "vehicleIllegalDisplacementAlarm": false
+                }
+            };
 
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8203", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8203", {}, JSON.stringify(T8203));
         }
 
         function sendMsg9() {
-            let protocol = new proto.Protocol();
-            protocol.setMsgid("0x8300");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid("1");
-            let data0x8300 = new proto.Data0x8300();
-
-            data0x8300.setUrgent(true);
-            data0x8300.setTerminaldisplay(true);
-            data0x8300.setTerminalreading(false);
-            data0x8300.setScreendisplay(true);
-            data0x8300.setNavigationinformation(false);
-            data0x8300.setTextmsg("SCA_USDT");
-            protocol.setData0x8300(data0x8300);
-            console.log("protocol" + protocol.toObject());
-            let d = protocol.serializeBinary();
-            console.log("d" + d);
-            let e = new proto.Protocol.deserializeBinary(d);
-            console.log("e" + e.getMsgid())
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8300", {}, jsonString);
+            let T8300 = {
+                "mainRoleId": "1",
+                "msgId": "0x8300",
+                "navigationInformation": true,
+                "screenDisplay": false,
+                "terminalDisplay": true,
+                "terminalPhones": ["005766002618"],
+                "terminalReading": false,
+                "textMsg": "SCA_USDT",
+                "urgent": false
+            }
+            stompClient.send("/cims-gateway/0x8300", {}, JSON.stringify(T8300));
         }
 
         function sendMsg10() {
-            let protocol = new proto.Protocol();
-            protocol.setMsgid("0x8301");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid("1");
-            let data0x8301 = new proto.Data0x8301();
-            let events1 = new proto.Data0x8301.Events();
-            data0x8301.setType(0);
-
-            events1.setId(1);
-            events1.setContent("大傻逼");
-            data0x8301.addEvents(events1);
-
-            let events2 = new proto.Data0x8301.Events();
-            events2.setId(2);
-            events2.setContent("SHAQUE");
-            data0x8301.addEvents(events2);
-
-            protocol.setData0x8301(data0x8301);
-            console.log("protocol" + protocol.toObject());
-            let d = protocol.serializeBinary();
-            console.log("d" + d);
-            let e = new proto.Protocol.deserializeBinary(d);
-            console.log("e" + e.getMsgid())
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8301", {}, jsonString);
+            let T8301 = {
+                "events": [{"id": "1", "content": "大傻逼"}, {"id": "2", "content": "SHAQUE"}],
+                "mainRoleId": "1",
+                "msgId": "0x8301",
+                "terminalPhones": ["005766002618"],
+                "type": 0
+            };
+            stompClient.send("/cims-gateway/0x8301", {}, JSON.stringify(T8301));
         }
 
         function sendMsg11() {
-            let protocol = new proto.Protocol();
-            protocol.setMsgid("0x8302");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid("1");
-            let data0x8302 = new proto.Data0x8302();
-            let flag = new proto.Data0x8302.Flag();
-            flag.setUrgent(false);
-            flag.setTerminalreading(true);
-            flag.setScreendisplay(false);
-
-            data0x8302.setFlag(flag);
-
-            data0x8302.setQuestion("现在高兴了吗？");
-
-            let answers1 = new proto.Data0x8302.Answers();
-            answers1.setId(1);
-            answers1.setAnswer("高兴");
-            data0x8302.addAnswers(answers1);
-
-            let answers2 = new proto.Data0x8302.Answers();
-            answers2.setId(2);
-            answers2.setAnswer("不高兴");
-            data0x8302.addAnswers(answers2);
-
-            protocol.setData0x8302(data0x8302);
-
-            console.log("protocol" + protocol.toObject());
-            let d = protocol.serializeBinary();
-            console.log("d" + d);
-            let e = new proto.Protocol.deserializeBinary(d);
-            console.log("e" + e.getMsgid())
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8302", {}, jsonString);
+            let T8302 = {
+                "answers": [{"id": "1", "answer": "高兴"}, {"id": "2", "answer": "不高兴"}],
+                "flag": {"screenDisplay": false, "terminalReading": true, "urgent": false},
+                "mainRoleId": "1",
+                "msgId": "0x8302",
+                "question": "现在高兴了吗？",
+                "terminalPhones": ["005766002618"]
+            };
+            stompClient.send("/cims-gateway/0x8302", {}, JSON.stringify(T8302));
         }
 
         function sendMsg12() {
-            let protocol = new proto.Protocol();
-            protocol.setMsgid("0x8303");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid(1);
-            let data0x8303 = new proto.Data0x8303();
-            data0x8303.setType(1);
-            let menus1 = new proto.Data0x8303.Menus();
-            menus1.setType(1);
-            menus1.setInfo("设置stock");
-            data0x8303.addMenus(menus1);
-
-            let menus2 = new proto.Data0x8303.Menus();
-            menus2.setType(2);
-            menus2.setInfo("设置时间");
-            data0x8303.addMenus(menus2);
-            protocol.setData0x8303(data0x8303);
-
-            console.log("protocol" + protocol.toObject());
-            let d = protocol.serializeBinary();
-            console.log("d" + d);
-            let e = new proto.Protocol.deserializeBinary(d);
-            console.log("e" + e.getMsgid())
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8303", {}, jsonString);
+            let T8303 = {
+                "mainRoleId": "1",
+                "msgId": "0x8303",
+                "terminalPhones": ["005766002618"],
+                "type": 1,
+                "menus": [{"type": "1", "info": "设置stock"},
+                    {"type": "2", "info": "设置时间"}]
+            };
+            stompClient.send("/cims-gateway/0x8303", {}, JSON.stringify(T8303));
         }
 
         function sendMsg13() {
-            let protocol = new proto.Protocol();
-            protocol.setMsgid("0x8304");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid(1);
-            let data0x8304 = new proto.Data0x8304();
-            data0x8304.setType(1);
-            data0x8304.setInfo("信息服务消息体数据格式见表49");
+            let T8304 = {
+                "info": "信息服务消息体数据格式见表49",
+                "mainRoleId": "1",
+                "msgId": "0x8304",
+                "terminalPhones": ["005766002618"],
+                "type": 1
+            };
 
-            protocol.setData0x8304(data0x8304);
-
-            console.log("protocol" + protocol.toObject());
-            let d = protocol.serializeBinary();
-            console.log("d" + d);
-            let e = new proto.Protocol.deserializeBinary(d);
-            console.log("e" + e.getMsgid())
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8304", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8304", {}, JSON.stringify(T8304));
         }
 
         function sendMsg14() {
-            let protocol = new proto.Protocol();
-            protocol.setMsgid("0x8400");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid("1");
-            let data0x8400 = new proto.Data0x8400();
-            data0x8400.setType(1);
-            data0x8400.setPhone("17666540206");
+            let T8400 = {
+                "mainRoleId": "1",
+                "msgId": "0x8400",
+                "terminalPhones": ["005766002618"],
+                "type": 1,
+                "phone": "17666540206"
+            };
 
-            protocol.setData0x8400(data0x8400);
-
-            console.log("protocol" + protocol.toObject());
-            let d = protocol.serializeBinary();
-            console.log("d" + d);
-            let e = new proto.Protocol.deserializeBinary(d);
-            console.log("e" + e.getMsgid())
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8400", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8400", {}, JSON.stringify(T8400));
         }
 
 
         function sendMsg15() {
-            let protocol = new proto.Protocol();
-            protocol.setMsgid("0x8401");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid("1");
-            let data0x8401 = new proto.Data0x8401();
-            data0x8401.setType(2);
+            let T8401 = {
+                "mainRoleId": "1", "msgId": "0x8401", "terminalPhones": ["005766002618"], "type": 2,
+                "contacts": [{"type": 1, "phone": "17666540206", "name": "张三"}, {
+                    "type": 1,
+                    "phone": "15502131664",
+                    "name": "李四"
+                }]
+            };
 
-            let contacts1 = new proto.Data0x8401.Contacts();
-            contacts1.setType(1);
-            contacts1.setPhone("17666540206");
-            contacts1.setName("张三");
-            data0x8401.addContacts(contacts1);
-
-            let contacts2 = new proto.Data0x8401.Contacts();
-            contacts2.setType(1);
-            contacts2.setPhone("15502131664");
-            contacts2.setName("李四");
-            data0x8401.addContacts(contacts2);
-
-            protocol.setData0x8401(data0x8401);
-
-            console.log("protocol" + protocol.toObject());
-            let d = protocol.serializeBinary();
-            console.log("d" + d);
-            let e = new proto.Protocol.deserializeBinary(d);
-            console.log("e" + e.getMsgid())
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8401", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8401", {}, JSON.stringify(T8401));
         }
 
         function sendMsg16() {
-            let protocol = new proto.Protocol();
-            protocol.setMsgid("0x8500");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid("1");
-            let data0x8500 = new proto.Data0x8500();
-            data0x8500.setFlag(true);
-
-            protocol.setData0x8500(data0x8500);
-
-            console.log("protocol" + protocol.toObject());
-            let d = protocol.serializeBinary();
-            console.log("d" + d);
-            let e = new proto.Protocol.deserializeBinary(d);
-            console.log("e" + e.getMsgid())
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8500", {}, jsonString);
+            let T8500 = {"flag": true, "mainRoleId": "1", "msgId": "0x8500", "terminalPhones": ["005766002618"]};
+            stompClient.send("/cims-gateway/0x8500", {}, JSON.stringify(T8500));
         }
 
 
         function sendMsg17() {
-            let data0x8600 = new proto.Data0x8600();
-            data0x8600.setMsgid("0x8600");
-            data0x8600.setTerminalphone("005766002618");
-            data0x8600.setMainroleid("1");
-            data0x8600.setType(2);
+            let T8600 = {
+                "areas": [{
+                    "centerLatitude": 23.332744,
+                    "centerLongitude": 113.33872,
+                    "endTime": "240518201617",
+                    "flag": {
+                        "accordingToTime": true,
+                        "dimensions": false,
+                        "enterAreaToPlatform": true,
+                        "inAreaToDriver": true,
+                        "isCollectGNSSData": false,
+                        "isOpenComModel": true,
+                        "isOpenTheDoor": false,
+                        "longitude": false,
+                        "outOfAreaAlarmTheDriver": true,
+                        "outOfAreaAlarmThePlatform": false,
+                        "speedLimit": true
+                    },
+                    "id": 1,
+                    "maxSpeed": 11,
+                    "overSpeedDuration": 6,
+                    "radius": 31,
+                    "startTime": "240518201617"
+                }], "mainRoleId": "1", "msgId": "0x8600", "terminalPhones": ["005766002618"], "type": 2
+            };
 
-            let areas = new proto.Data0x8600.Areas();
-            areas.setId("18");
-            let flag = new proto.Data0x8600.Areas.Flag();
-            flag.setAccordingtotime(true);
-            flag.setSpeedlimit(true );
-            flag.setInareatodriver(true);
-            flag.setEnterareatoplatform(true);
-            flag.setOutofareaalarmthedriver(false);
-            flag.setOutofareaalarmtheplatform(false);
-            flag.setDimensions(true);
-            flag.setLongitude(true);
-            flag.setIsopenthedoor(true);
-            flag.setIsopencommodel(false);
-            flag.setIscollectgnssdata(true);
-            areas.setFlag(flag);
-            areas.setCenterlatitude("23.332744");
-            areas.setCenterlongitude("113.33872");
-            areas.setRadius(31);
-            areas.setStarttime("240318201617");
-            areas.setEndtime("240518201617");
-            areas.setMaxspeed("100");
-            areas.setOverspeedduration("6");
-            areas.setTopspeedatnight("76");
-            areas.setAreaname("圆形区域1");
-            data0x8600.addAreas(areas);
-
-            console.log("protocol" + data0x8600.toObject());
-            let d = data0x8600.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8600", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8600", {}, JSON.stringify(T8600));
         }
 
         function sendMsg18() {
-            let data0x8601 = new proto.Data0x8601();
-            let areaIds = new proto.Data0x8601.AreaIds();
-             data0x8601.setMsgid("0x8601");
-             data0x8601.setTerminalphone("005766002618");
-             data0x8601.setMainroleid(1);
-            areaIds.setId("18");
-            data0x8601.addAreaids(areaIds);
+            let T8601 = {
+                "areaIds": [{"id": "1"}],
+                "mainRoleId": "1",
+                "msgId": "0x8601",
+                "terminalPhones": ["005766002618"]
+            };
 
-
-            console.log("protocol" + data0x8601.toObject());
-            let d = data0x8601.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8601", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8601", {}, JSON.stringify(T8601));
         }
 
         function sendMsg19() {
-            let protocol = new proto.Protocol();
-
-            let data0x8602 = new proto.Data0x8602();
-            data0x8602.setType(1);
-            data0x8602.setMsgid("0x8602");
-            data0x8602.setTerminalphone("005766002618");
-            data0x8602.setMainroleid(1);
-
-            let areas = new proto.Data0x8602.Areas();
-            areas.setId(18);
-            let flag = new proto.Data0x8602.Areas.Flag();
-            flag.setAccordingtotime(true);
-            flag.setSpeedlimit(true );
-            flag.setInareatodriver(true);
-            flag.setEnterareatoplatform(true);
-            flag.setOutofareaalarmthedriver(false);
-            flag.setOutofareaalarmtheplatform(false);
-            flag.setDimensions(true);
-            flag.setLongitude(true);
-            flag.setIsopenthedoor(true);
-            flag.setIsopencommodel(false);
-            flag.setIscollectgnssdata(true);
-            areas.setFlag(flag);
-            areas.setLeftlatitude("23.332744");
-            areas.setLeftlongitude("113.33872");
-            areas.setRightlatitude("23.332744");
-            areas.setRightlongitude("113.33872");
-            areas.setStarttime("240318201617");
-            areas.setEndtime("240518201617");
-            areas.setMaxspeed(100);
-            areas.setOverspeedduration(6);
-            areas.setTopspeedatnight("76");
-            areas.setAreaname("矩形区域1");
-            data0x8602.addAreas(areas);
-
-
-            console.log("protocol" + data0x8602.toObject());
-            let d = data0x8602.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8602", {}, jsonString);
+            let T8602 = {
+                "areas": [{
+                    "endTime": "240318201617",
+                    "flag": {
+                        "accordingToTime": true,
+                        "dimensions": false,
+                        "enterAreaToPlatform": true,
+                        "inAreaToDriver": false,
+                        "isCollectGNSSData": false,
+                        "isOpenComModel": true,
+                        "isOpenTheDoor": false,
+                        "longitude": false,
+                        "outOfAreaAlarmTheDriver": true,
+                        "outOfAreaAlarmThePlatform": true,
+                        "speedLimit": true
+                    },
+                    "id": 1,
+                    "leftLatitude": 23.332744,
+                    "leftLongitude": 113.33872,
+                    "maxSpeed": 6,
+                    "overSpeedDuration": 8,
+                    "rightLatitude": 23.332744,
+                    "rightLongitude": 113.33872,
+                    "startTime": "240318201617"
+                }], "mainRoleId": "1", "msgId": "0x8602", "terminalPhones": ["005766002618"], "type": 1
+            };
+            stompClient.send("/cims-gateway/0x8602", {}, JSON.stringify(T8602));
         }
 
 
         function sendMsg20() {
-            let data0x8601 = new proto.Data0x8601();
-            let areaIds = new proto.Data0x8601.AreaIds();
-            data0x8601.setMsgid("0x8603");
-            data0x8601.setTerminalphone("005766002618");
-            data0x8601.setMainroleid("1");
-            areaIds.setId("18");
-            data0x8601.addAreaids(areaIds);
-
-
-            console.log("protocol" + data0x8601.toObject());
-            let d = data0x8601.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8603", {}, jsonString);
+            let T8601 = {
+                "areaIds": [{"id": "1"}],
+                "mainRoleId": "1",
+                "msgId": "0x8603",
+                "terminalPhones": ["005766002618"]
+            };
+            stompClient.send("/cims-gateway/0x8603", {}, JSON.stringify(T8601));
         }
 
 
         function sendMsg21() {
-            let protocol = new proto.Protocol();
 
-            let data0x8604 = new proto.Data0x8604();
-            data0x8604.setMsgid("0x8604");
-            data0x8604.setTerminalphone("005766002618");
-            data0x8604.setMainroleid(1);
+            let T8604 = {
+                "endTime": "240318201617",
+                "flag": {
+                    "accordingToTime": true,
+                    "dimensions": false,
+                    "enterAreaToPlatform": true,
+                    "inAreaToDriver": false,
+                    "isCollectGNSSData": false,
+                    "isOpenComModel": true,
+                    "isOpenTheDoor": true,
+                    "longitude": false,
+                    "outOfAreaAlarmTheDriver": false,
+                    "outOfAreaAlarmThePlatform": true,
+                    "speedLimit": true
+                },
+                "id": 1,
+                "mainRoleId": "1",
+                "maxSpeed": 100,
+                "msgId": "0x8604",
+                "overSpeedDuration": 6,
+                "points": [{"latitude": 163.33872, "longitude": 29.332744}, {
+                    "latitude": 113.33872,
+                    "longitude": 59.332744
+                }],
+                "startTime": "240318201617",
+                "terminalPhones": ["005766002618"]
+            };
 
-            data0x8604.setId("18");
 
-            let flag = new proto.Data0x8604.Flag();
-            flag.setAccordingtotime(true);
-            flag.setSpeedlimit(true );
-            flag.setInareatodriver(true);
-            flag.setEnterareatoplatform(true);
-            flag.setOutofareaalarmthedriver(false);
-            flag.setOutofareaalarmtheplatform(false);
-            flag.setDimensions(true);
-            flag.setLongitude(true);
-            flag.setIsopenthedoor(true);
-            flag.setIsopencommodel(false);
-            flag.setIscollectgnssdata(true);
-            data0x8604.setFlag(flag);
-            data0x8604.setStarttime("240318201617");
-            data0x8604.setEndtime("240518201617");
-            data0x8604.setMaxspeed(100);
-            data0x8604.setOverspeedduration(6);
-            data0x8604.setTopspeedatnight("76");
-            data0x8604.setAreaname("多边形区域1");
-            let points = new proto.Data0x8604.Points();
-            points.setLongitude("113.33872");
-            points.setLatitude("23.332744");
-            data0x8604.addPoints(points);
-
-            let points1 = new proto.Data0x8604.Points();
-            points1.setLongitude("163.33872");
-            points1.setLatitude("29.332744");
-            data0x8604.addPoints(points1);
-
-            console.log("protocol" + data0x8604.toObject());
-            let d = data0x8604.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8604", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8604", {}, JSON.stringify(T8604));
         }
 
 
         function sendMsg22() {
-            let data0x8601 = new proto.Data0x8601();
-            let areaIds = new proto.Data0x8601.AreaIds();
-            data0x8601.setMsgid("0x8605");
-            data0x8601.setTerminalphone("005766002618");
-            data0x8601.setMainroleid(1);
-            areaIds.setId("18");
-            data0x8601.addAreaids(areaIds);
+            let T8601 = {
+                "areaIds": [{"id": "1"}],
+                "mainRoleId": "1",
+                "msgId": "0x8605",
+                "terminalPhones": ["005766002618"]
+            };
 
-
-            console.log("protocol" + data0x8601.toObject());
-            let d = data0x8601.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8605", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8605", {}, JSON.stringify(T8601));
         }
 
         function sendMsg23() {
-            let protocol = new proto.Protocol();
-
-            let data0x8606 = new proto.Data0x8606();
-            data0x8606.setMsgid("0x8606");
-            data0x8606.setTerminalphone("005766002618");
-            data0x8606.setMainroleid(1);
-
-            data0x8606.setId("18");
-
-            let flag = new proto.Data0x8606.Flag();
-            flag.setAccordingtotime(true);
-            flag.setEnteralarmtodriver(false);
-            flag.setEnteralarmtoplatform(true);
-            flag.setOutalarmtodriver(true);
-            flag.setOutalarmtoplatform(false);
-            data0x8606.setFlag(flag);
-            data0x8606.setStarttime("240318201617");
-            data0x8606.setEndtime("240518201617");
-            data0x8606.setAreaname("设置路线1");
-
-            let points = new proto.Data0x8606.Points();
-            points.setPointid("231");
-            points.setPathid("132");
-            points.setPointlat("163.33872");
-            points.setPointlng("113.33872");
-            points.setWidth("31");
-
-
-            let attrib = new proto.Data0x8606.Points.Attrib();
-            attrib.setTraveltime(true);
-            attrib.setSpeedlimit(true);
-            attrib.setLatitude(true);
-            attrib.setLongitude(false);
-
-            points.setAttrib(attrib);
-            points.setPassed("4");
-            points.setUncovered("23");
-            points.setMaxspeed("61");
-            points.setOverspeedduration("8");
-            points.setTopspeedatnight("45");
-
-            data0x8606.addPoints(points);
-
-            let points1 = new proto.Data0x8606.Points();
-            points1.setPointid("21");
-            points1.setPathid("12");
-            points1.setPointlat("13.33872");
-            points1.setPointlng("17.33872");
-            points1.setWidth("32");
-
-            let attrib1 = new proto.Data0x8606.Points.Attrib();
-            attrib1.setTraveltime(true);
-            attrib1.setSpeedlimit(true);
-            attrib1.setLatitude(true);
-            attrib1.setLongitude(false);
-
-            points1.setAttrib(attrib);
-            points1.setPassed("4");
-            points1.setUncovered("23");
-            points1.setMaxspeed("61");
-            points1.setOverspeedduration("8");
-            points1.setTopspeedatnight("46");
-            data0x8606.addPoints(points1);
-
-            console.log("protocol" + data0x8606.toObject());
-            let d = data0x8606.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8606", {}, jsonString);
+            let T8606 = {
+                "endTime": "240518201617",
+                "flag": {
+                    "accordingToTime": true,
+                    "enterAlarmToDriver": false,
+                    "enterAlarmToPlatform": true,
+                    "outAlarmToDriver": false,
+                    "outAlarmToPlatform": true
+                },
+                "id": 18,
+                "mainRoleId": "1",
+                "msgId": "0x8606",
+                "points": [{
+                    "maxSpeed": 61,
+                    "overSpeedDuration": 8,
+                    "passed": 4,
+                    "pathId": 12,
+                    "pointId": 21,
+                    "pointLat": 13.33872,
+                    "pointLng": 113.33872,
+                    "uncovered": 23,
+                    "width": 31,
+                    "attrib": {
+                        "travelTime": true,
+                        "speedLimit": false,
+                        "latitude": false,
+                        "longitude": true,
+                    }
+                }],
+                "startTime": "240318201617",
+                "terminalPhones": ["005766002618"]
+            };
+            stompClient.send("/cims-gateway/0x8606", {}, JSON.stringify(T8606));
         }
 
         function sendMsg24() {
-            let data0x8601 = new proto.Data0x8601();
-            let areaIds = new proto.Data0x8601.AreaIds();
-            data0x8601.setMsgid("0x8607");
-            data0x8601.setTerminalphone("005766002618");
-            data0x8601.setMainroleid(1);
-            areaIds.setId("18");
-            data0x8601.addAreaids(areaIds);
-
-
-            console.log("protocol" + data0x8601.toObject());
-            let d = data0x8601.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8607", {}, jsonString);
+            let T8601 = {
+                "areaIds": [{"id": "18"}],
+                "mainRoleId": "1",
+                "msgId": "0x8607",
+                "terminalPhones": ["005766002618"]
+            };
+            stompClient.send("/cims-gateway/0x8607", {}, JSON.stringify(T8601));
         }
 
         function sendMsg25() {
-            let protocol = new proto.Protocol();
-            protocol.setMsgid("0x8702");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid(1);
-
-
-            console.log("protocol" + protocol.toObject());
-            let d = protocol.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8702", {}, jsonString);
+            var t8702 = {
+                "mainRoleId": "1",
+                "msgId": "0x8702",
+                "terminalPhones": ["005766002618"]
+            };
+            stompClient.send("/cims-gateway/0x8702", {}, JSON.stringify(t8702));
         }
 
         function sendMsg26() {
-            let data0x8800 = new proto.Data0x8800();
-            data0x8800.setMsgid("0x8800");
-            data0x8800.setTerminalphone("005766002618");
-            data0x8800.setMainroleid("1");
+            let T8800 = {
+                "mainRoleId": "1",
+                "mmId": 1712292738,
+                "msgId": "0x8800",
+                "terminalPhones": ["005766002618"],
+                "ids": {"id": 2}
+            };
 
-            data0x8800.setMmid("1712292738");
-           let ids = new proto.Data0x8800.Ids();
-            ids.setId(2);
-            data0x8800.addIds(ids);
 
-            let ids1 = new proto.Data0x8800.Ids();
-            ids1.setId(3);
-            data0x8800.addIds(ids1);
-
-            console.log("protocol" + data0x8800.toObject());
-            let d = data0x8800.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8800", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8800", {}, JSON.stringify(T8800));
         }
 
 
         function sendMsg27() {
-            let data0x8801 = new proto.Data0x8801();
-            data0x8801.setMsgid("0x8801");
-            data0x8801.setTerminalphone("005766002618");
-            data0x8801.setMainroleid("1");
+            let T8801 = {
+                "bright": 178,
+                "channelId": 1,
+                "chromaticity": 122,
+                "command": 0,
+                "contrast": 123,
+                "mainRoleId": "1",
+                "msgId": "0x8801",
+                "period": 1,
+                "quality": 1,
+                "resolution": 1,
+                "saturate": 154,
+                "save": 1,
+                "terminalPhones": ["005766002618"]
+            };
 
-            data0x8801.setChannelid(1);
-            data0x8801.setCommand(0);
-            data0x8801.setPeriod(1);
-            data0x8801.setSave(1);
-            data0x8801.setResolution("0x01");
-            data0x8801.setQuality(1);
-            data0x8801.setBright(178);
-            data0x8801.setContrast(123);
-            data0x8801.setSaturate(154);
-            data0x8801.setChromaticity(122);
-
-            console.log("protocol" + data0x8801.toObject());
-            let d = data0x8801.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8801", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8801", {}, JSON.stringify(T8801));
         }
 
         /*检索 */
         function sendMsg32() {
-            let data0x8802 = new proto.Data0x8802();
-            data0x8802.setMsgid("0x8802");
-            data0x8802.setTerminalphone("005766002618");
-            data0x8802.setMainroleid("1");
+            let T8802 = {
+                "channelId": 1,
+                "endTime": "240325235959",
+                "eventCode": 2,
+                "mainRoleId": "1",
+                "msgId": "0x8802",
+                "startTime": "240325000000",
+                "terminalPhones": ["005766002618"],
+                "type": 0
+            };
 
-            data0x8802.setType(0);
-            data0x8802.setChannelid(1);
-            data0x8802.setEventcode(2);
-            data0x8802.setStarttime("240325000000");
-            data0x8802.setEndtime("240325235959");
-
-
-            console.log("protocol" + data0x8802.toObject());
-            let d = data0x8802.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8802", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8802", {}, JSON.stringify(T8802));
         }
 
 
         function sendMsg28() {
-            let data0x8803 = new proto.Data0x8803();
-            data0x8803.setMsgid("0x8803");
-            data0x8803.setTerminalphone("005766002618");
-            data0x8803.setMainroleid("1");
+            let T8803 = {
+                "channel": 1,
+                "endTime": "240325235959",
+                "eventNumber": 2,
+                "isDelete": 0,
+                "mainRoleId": "1",
+                "mediaType": 0,
+                "msgId": "0x8803",
+                "startTime": "240325000000",
+                "terminalPhones": ["005766002618"]
+            };
 
-            data0x8803.setMediatype(0);
-            data0x8803.setChannel(1);
-            data0x8803.setEventnumber(2);
-            data0x8803.setStarttime("240325000000");
-            data0x8803.setEndtime("240325235959");
-            data0x8803.setIsdelete(0);
-
-            console.log("protocol" + data0x8803.toObject());
-            let d = data0x8803.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8803", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8803", {}, JSON.stringify(T8803));
         }
 
 
         function sendMsg29() {
-            let data0x8804 = new proto.Data0x8804();
-            data0x8804.setMsgid("0x8804");
-            data0x8804.setTerminalphone("005766002618");
-            data0x8804.setMainroleid("1");
+            let T8804 = {
+                "command": 0,
+                "mainRoleId": "1",
+                "msgId": "0x8804",
+                "rate": 2,
+                "save": 0,
+                "terminalPhones": ["005766002618"],
+                "time": 8
+            };
 
-            data0x8804.setCommand(0);
-            data0x8804.setTime(8);
-            data0x8804.setSave(0);
-            data0x8804.setRate(2);
-
-            console.log("protocol" + data0x8804.toObject());
-            let d = data0x8804.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8804", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8804", {}, JSON.stringify(T8804));
         }
 
 
         function sendMsg30() {
-            let data0x8805 = new proto.Data0x8805();
-            data0x8805.setMsgid("0x8805");
-            data0x8805.setTerminalphone("005766002618");
-            data0x8805.setMainroleid("1");
+            let T8805 = {
+                "flag": 0,
+                "id": "1712156501",
+                "mainRoleId": "1",
+                "msgId": "0x8805",
+                "terminalPhones": ["005766002618"]
+            };
 
-            data0x8805.setId("1712156501");
-            data0x8805.setFlag(0);
-
-            console.log("protocol" + data0x8805.toObject());
-            let d = data0x8805.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8805", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8805", {}, JSON.stringify(T8805));
         }
 
         function sendMsg31() {
-            let data0x8A00 = new proto.Data0x8A00();
-            data0x8A00.setMsgid("0x8A00");
-            data0x8A00.setTerminalphone("005766002618");
-            data0x8A00.setMainroleid("1");
+            let T8805 = {
+                "e": "43331",
+                "n": "A49D66605EF58F9D15BEA76DE80A98BBAFBE61ACB2D0924510B09D43660B8DBCCEAF0D4502A9793A0C0B9C609C7",
+                "mainRoleId": "1",
+                "msgId": "0x8A00",
+                "terminalPhones": ["005766002618"]
+            };
 
-            data0x8A00.setE("43331");
-            data0x8A00.setN("A49D66605EF58F9D15BEA76DE80A98BBAFBE61ACB2D0924510B09D43660B8DBCCEAF0D4502A9793A0C0B9C609C7");
-
-            console.log("protocol" + data0x8A00.toObject());
-            let d = data0x8A00.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('iso-8859-1');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x8A00", {}, jsonString);
+            stompClient.send("/cims-gateway/0x8A00", {}, JSON.stringify(T8805));
         }
 
         function sendMsg33() {
-            let protocol = new proto.JT1087Protocol();
-            protocol.setMsgid("0x9003");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid("1");
-
-            console.log("protocol" + protocol.toObject());
-            let d = protocol.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('iso-8859-1');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x9003", {}, jsonString);
+            let T9003 = {"mainRoleId": "1", "msgId": "0x9003", "terminalPhones": ["005766002618"]};
+            stompClient.send("/cims-gateway/0x9003", {}, JSON.stringify(T9003));
         }
 
         function sendMsg34() {
-            let data0x9101 = new proto.Data0x9101();
-            data0x9101.setMsgid("0x9101");
-            data0x9101.setTerminalphone("005766002618");
-            data0x9101.setMainroleid("1");
-            data0x9101.setIp("192.168.3.11");
-            data0x9101.setTcpport("8848");
-            data0x9101.setUdpport("8919");
-            data0x9101.setChannelno(1);
-            data0x9101.setMediatype(0);
-            data0x9101.setStreamtype(0);
+            let T9101 = {
+                "channelNo": 1,
+                "ip": "192.168.3.11",
+                "mainRoleId": "1",
+                "mediaType": 0,
+                "msgId": "0x9101",
+                "streamType": 0,
+                "tcpPort": 1078,
+                "terminalPhones": ["005766002618"],
+                "udpPort": 0
+            };
 
-            console.log("protocol" + data0x9101.toObject());
-            let d = data0x9101.serializeBinary();
-            console.log("d" + d);
 
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x9101", {}, jsonString);
+            stompClient.send("/cims-gateway/0x9101", {}, JSON.stringify(T9101));
         }
 
         function sendMsg35() {
-            let data0x9102 = new proto.Data0x9102();
-            data0x9102.setMsgid("0x9102");
-            data0x9102.setTerminalphone("005766002618");
-            data0x9102.setMainroleid("1");
-            data0x9102.setChannelno(1);
-            data0x9102.setCommand(2);
-            data0x9102.setClosetype(1);
-            data0x9102.setStreamtype(1)
-
-            console.log("protocol" + data0x9102.toObject());
-            let d = data0x9102.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x9102", {}, jsonString);
+            let T9102 = {
+                "channelNo": 1,
+                "closeType": 1,
+                "command": 2,
+                "mainRoleId": "1",
+                "msgId": "0x9102",
+                "streamType": 1,
+                "terminalPhones": ["005766002618"]
+            }
+            stompClient.send("/cims-gateway/0x9102", {}, JSON.stringify(T9102));
         }
 
         function sendMsg36() {
-            let data0x9105 = new proto.Data0x9105();
-            data0x9105.setMsgid("0x9105");
-            data0x9105.setTerminalphone("005766002618");
-            data0x9105.setMainroleid("1");
-            data0x9105.setChannelno(1);
-            data0x9105.setPacketlossrate("34.443");
-
-            console.log("protocol" + data0x9105.toObject());
-            let d = data0x9105.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x9105", {}, jsonString);
+            let T9105 = {
+                "channelNo": 1,
+                "mainRoleId": "1",
+                "msgId": "0x9105",
+                "packetLossRate": 34.443,
+                "terminalPhones": ["005766002618"]
+            };
+            stompClient.send("/cims-gateway/0x9105", {}, JSON.stringify(T9105));
         }
 
         function sendMsg37() {
-            let data0x9201 = new proto.Data0x9201();
-            data0x9201.setMsgid("0x9201");
-            data0x9201.setTerminalphone("005766002618");
-            data0x9201.setMainroleid("1");
-
-            data0x9201.setIp("192.168.1.21");
-            data0x9201.setTcpport("7328");
-            data0x9201.setUdpport("1243");
-            data0x9201.setChannelno(1);
-            data0x9201.setMediatype(1);
-            data0x9201.setStreamtype(1);
-            data0x9201.setStoragetype(2);
-            data0x9201.setPlaybackmode(1);
-            data0x9201.setPlaybackspeed(3);
-            data0x9201.setStarttime("240408121212");
-            data0x9201.setEndtime("240408245959");
-
-
-            console.log("protocol" + data0x9201.toObject());
-            let d = data0x9201.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x9201", {}, jsonString);
+            let T9201 = {
+                "channelNo": 1,
+                "endTime": "240408245959",
+                "ip": "192.168.1.6",
+                "mainRoleId": "1",
+                "mediaType": 1,
+                "msgId": "0x9201",
+                "playbackMode": 1,
+                "playbackSpeed": 3,
+                "startTime": "240408121212",
+                "storageType": 2,
+                "streamType": 1,
+                "tcpPort": 1078,
+                "terminalPhones": ["005766002618"],
+                "udpPort": 0
+            }
+            stompClient.send("/cims-gateway/0x9201", {}, JSON.stringify(T9201));
         }
 
         function sendMsg38() {
-            let data0x9202 = new proto.Data0x9202();
-            data0x9202.setMsgid("0x9202");
-            data0x9202.setTerminalphone("005766002618");
-            data0x9202.setMainroleid("1");
-            data0x9202.setChannelno(1);
-            data0x9202.setPlaybackmode(3);
-            data0x9202.setPlaybackspeed(2);
-            data0x9202.setPlaybacktime("240408121212");
+            let T9202 = {
+                "channelNo": 1,
+                "mainRoleId": "1",
+                "msgId": "0x9202",
+                "playbackMode": 3,
+                "playbackSpeed": 2,
+                "playbackTime": "240408121212",
+                "terminalPhones": ["005766002618"]
+            };
 
-
-            console.log("protocol" + data0x9202.toObject());
-            let d = data0x9202.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x9202", {}, jsonString);
+            stompClient.send("/cims-gateway/0x9202", {}, JSON.stringify(T9202));
         }
 
         function sendMsg39() {
-            let data0x9205 = new proto.Data0x9205();
-            data0x9205.setMsgid("0x9205");
-            data0x9205.setTerminalphone("005766002618");
-            data0x9205.setMainroleid("1");
-            data0x9205.setChannelno(1);
-
-            data0x9205.setStarttime("240408121212");
-            data0x9205.setEndtime("240408245959")
-
-            data0x9205.setWarnbit1("178358420");
-            data0x9205.setWarnbit2("178358420");
-            data0x9205.setMediatype(2);
-            data0x9205.setStreamtype(1);
-            data0x9205.setStoragetype(1);
-            console.log("protocol" + data0x9205.toObject());
-            let d = data0x9205.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x9205", {}, jsonString);
+            let T9205 = {
+                "channelNo": 1,
+                "endTime": "240408245959",
+                "mainRoleId": "1",
+                "mediaType": 2,
+                "msgId": "0x9205",
+                "startTime": "240408121212",
+                "storageType": 1,
+                "streamType": 1,
+                "terminalPhones": ["005766002618"],
+                "warnBit1": "178358420",
+                "warnBit2": "178358420"
+            };
+            stompClient.send("/cims-gateway/0x9205", {}, JSON.stringify(T9205));
         }
 
         function sendMsg40() {
-            let protocol = new proto.JT1087Protocol();
-            protocol.setMsgid("0x9206");
-            protocol.setTerminalphone("005766002618");
-            protocol.setMainroleid("1");
 
-            let data0x9206 = new proto.Data0x9206();
-            data0x9206.setChannelno(1);
+            let T9206 = {
+                "channelNo": 1,
+                "condition": 4,
+                "endTime": "240408245959",
+                "ip": "192.168.1.2",
+                "mainRoleId": "1",
+                "mediaType": 1,
+                "msgId": "0x9206",
+                "password": "123456",
+                "path": "image",
+                "port": 3333,
+                "startTime": "240408121212",
+                "storageType": 1,
+                "streamType": 1,
+                "terminalPhones": ["005766002618"],
+                "username": "admin",
+                "warnBit1": "178358420",
+                "warnBit2": "178358420"
+            };
 
-            data0x9206.setIp("192.168.1.2");
-             data0x9206.setPort("3333");
-            data0x9206.setUsername("admin");
-            data0x9206.setPassword("123456");
-            data0x9206.setPath("image");
-            //
-            data0x9206.setStarttime("240408121212");
-            data0x9206.setEndtime("240408245959")
-            //
-            data0x9206.setWarnbit1("178358420");
-            data0x9206.setWarnbit2("178358420");
-            data0x9206.setMediatype(1);
-            data0x9206.setStreamtype(1);
-            data0x9206.setStoragetype(1);
-             data0x9206.setCondition(4);
-
-            protocol.setData0x9206(data0x9206);
-            console.log("protocol" + protocol.toObject());
-            let d = protocol.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x9206", {}, jsonString);
+            stompClient.send("/cims-gateway/0x9206", {}, JSON.stringify(T9206));
         }
 
         function sendMsg41() {
-            let data0x9207 = new proto.Data0x9207();
-            data0x9207.setMsgid("0x9207");
-            data0x9207.setTerminalphone("005766002618");
-            data0x9207.setMainroleid("1");
-            data0x9207.setResponseserialno();
-            data0x9207.setCommand(1);
+            let T9207 = {
+                "command": 1,
+                "mainRoleId": "1",
+                "msgId": "0x9207",
+                "responseSerialNo": 0,
+                "terminalPhones": ["005766002618"]
+            };
 
-
-            console.log("protocol" + data0x9207.toObject());
-            let d = data0x9207.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x9207", {}, jsonString);
+            stompClient.send("/cims-gateway/0x9207", {}, JSON.stringify(T9207));
         }
 
         function sendMsg42() {
-            let data0x9301 = new proto.Data0x9301();
-            data0x9301.setMsgid("0x9301");
-            data0x9301.setTerminalphone("005766002618");
-            data0x9301.setMainroleid("1");
-            data0x9301.setChannelno(1);
-            data0x9301.setDirection(1);
-            data0x9301.setSpeed(23);
-
-            console.log("protocol" + data0x9301.toObject());
-            let d = data0x9301.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x9301", {}, jsonString);
+            let T9301 = {
+                "channelNo": 1,
+                "direction": 1,
+                "mainRoleId": "1",
+                "msgId": "0x9301",
+                "speed": 26,
+                "terminalPhones": ["005766002618"]
+            };
+            stompClient.send("/cims-gateway/0x9301", {}, JSON.stringify(T9301));
         }
 
         function sendMsg43() {
-            let data0x9302 = new proto.Data0x9302();
-            data0x9302.setMsgid("0x9302");
-            data0x9302.setTerminalphone("005766002618");
-            data0x9302.setMainroleid("1");
-            data0x9302.setChannelno(1);
-            data0x9302.setParam(1);
+            let T9302 = {
+                "channelNo": 1,
+                "mainRoleId": "1",
+                "msgId": "0x9302",
+                "param": 1,
+                "terminalPhones": ["005766002618"]
+            };
 
-            console.log("protocol" + data0x9302.toObject());
-            let d = data0x9302.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x9302", {}, jsonString);
+            stompClient.send("/cims-gateway/0x9302", {}, JSON.stringify(T9302));
         }
 
         function sendMsg44() {
-            let data0x9302 = new proto.Data0x9302();
-            data0x9302.setMsgid("0x9303");
-            data0x9302.setTerminalphone("005766002618");
-            data0x9302.setMainroleid("1");
-            data0x9302.setChannelno(1);
-            data0x9302.setParam(1);
+            let T9302 = {
+                "channelNo": 1,
+                "mainRoleId": "1",
+                "msgId": "0x9303",
+                "param": 1,
+                "terminalPhones": ["005766002618"]
+            };
 
-            console.log("protocol" + data0x9302.toObject());
-            let d = data0x9302.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x9303", {}, jsonString);
+            stompClient.send("/cims-gateway/0x9303", {}, JSON.stringify(T9302));
         }
 
         function sendMsg45() {
-            let data0x9302 = new proto.Data0x9302();
-            data0x9302.setMsgid("0x9304");
-            data0x9302.setTerminalphone("005766002618");
-            data0x9302.setMainroleid("1");
-            data0x9302.setChannelno(1);
-            data0x9302.setParam(1);
+            let T9302 = {
+                "channelNo": 1,
+                "mainRoleId": "1",
+                "msgId": "0x9304",
+                "param": 1,
+                "terminalPhones": ["005766002618"]
+            };
 
-            console.log("protocol" + data0x9302.toObject());
-            let d = data0x9302.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x9304", {}, jsonString);
+            stompClient.send("/cims-gateway/0x9304", {}, JSON.stringify(T9302));
         }
 
         function sendMsg46() {
-            let data0x9302 = new proto.Data0x9302();
-            data0x9302.setMsgid("0x9305");
-            data0x9302.setTerminalphone("005766002618");
-            data0x9302.setMainroleid("1");
-            data0x9302.setChannelno(1);
-            data0x9302.setParam(1);
+            let T9302 = {
+                "channelNo": 1,
+                "mainRoleId": "1",
+                "msgId": "0x9305",
+                "param": 1,
+                "terminalPhones": ["005766002618"]
+            };
 
-            console.log("protocol" + data0x9302.toObject());
-            let d = data0x9302.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x9305", {}, jsonString);
+            stompClient.send("/cims-gateway/0x9305", {}, JSON.stringify(T9302));
         }
 
         function sendMsg47() {
-            let data0x9302 = new proto.Data0x9302();
-            data0x9302.setMsgid("0x9306");
-            data0x9302.setTerminalphone("005766002618");
-            data0x9302.setMainroleid("1");
-            data0x9302.setChannelno(1);
-            data0x9302.setParam(1);
+            let T9302 = {
+                "channelNo": 1,
+                "mainRoleId": "1",
+                "msgId": "0x9306",
+                "param": 1,
+                "terminalPhones": ["005766002618"]
+            };
 
-            console.log("protocol" + data0x9302.toObject());
-            let d = data0x9302.serializeBinary();
-            console.log("d" + d);
-
-            // 创建 TextDecoder 对象并指定编码格式为 UTF-8
-            const decoder = new TextDecoder('utf-8');
-
-            // 将二进制数据转换为文本
-            const jsonString = decoder.decode(d);
-            console.log(jsonString);
-
-            stompClient.send("/cims-gateway/0x9306", {}, jsonString);
+            stompClient.send("/cims-gateway/0x9306", {}, JSON.stringify(T9302));
         }
 
 
@@ -1620,109 +869,110 @@
             float: right;
         }
     </style>
+    <script src="js/JT808.js"></script>
 </head>
 <body>
 <div class="wrapper">
     <div class="left">
         <span>=====================JT808=================</span>
         <br/>
-    <input type="button" id="sendMsg" name="sendMsg" value="设置终端参数" onclick="sendMsg();">
+    <input type="button" id="sendMsg" name="sendMsg" value="设置终端参数(0x8103)" onclick="sendMsg();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg1" name="sendMsg" value="查询终端参数" onclick="sendMsg1();">
+    <input type="button" id="sendMsg1" name="sendMsg" value="查询终端参数(0x8104)" onclick="sendMsg1();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg2" name="sendMsg" value="查询指定终端参数" onclick="sendMsg2();">
+    <input type="button" id="sendMsg2" name="sendMsg" value="查询指定终端参数(0x8106)" onclick="sendMsg2();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg3" name="sendMsg" value="终端控制" onclick="sendMsg3();">
+    <input type="button" id="sendMsg3" name="sendMsg" value="终端控制(0x8105)" onclick="sendMsg3();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg4" name="sendMsg" value="查询终端属性" onclick="sendMsg4();">
+    <input type="button" id="sendMsg4" name="sendMsg" value="查询终端属性(0x8107)" onclick="sendMsg4();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg5" name="sendMsg" value="下发终端升级包" onclick="sendMsg5();">
+    <input type="button" id="sendMsg5" name="sendMsg" value="下发终端升级包(0x8108)" onclick="sendMsg5();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg6" name="sendMsg" value="位置信息查询" onclick="sendMsg6();">
+    <input type="button" id="sendMsg6" name="sendMsg" value="位置信息查询(0x8201)" onclick="sendMsg6();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg7" name="sendMsg" value="临时位置跟踪控制" onclick="sendMsg7();">
+    <input type="button" id="sendMsg7" name="sendMsg" value="临时位置跟踪控制(0x8202)" onclick="sendMsg7();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg8" name="sendMsg" value="人工确认报警消息" onclick="sendMsg8();">
+    <input type="button" id="sendMsg8" name="sendMsg" value="人工确认报警消息(0x8203)" onclick="sendMsg8();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg9" name="sendMsg" value="文本信息下发" onclick="sendMsg9();">
+    <input type="button" id="sendMsg9" name="sendMsg" value="文本信息下发(0x8300)" onclick="sendMsg9();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg10" name="sendMsg" value="事件设置" onclick="sendMsg10();">
+    <input type="button" id="sendMsg10" name="sendMsg" value="事件设置(0x8301)" onclick="sendMsg10();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg11" name="sendMsg" value="提问下发" onclick="sendMsg11();">
+    <input type="button" id="sendMsg11" name="sendMsg" value="提问下发(0x8302)" onclick="sendMsg11();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg12" name="sendMsg" value="信息点播菜单设置" onclick="sendMsg12();">
+    <input type="button" id="sendMsg12" name="sendMsg" value="信息点播菜单设置(0x8303)" onclick="sendMsg12();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg13" name="sendMsg" value="信息服务" onclick="sendMsg13();">
+    <input type="button" id="sendMsg13" name="sendMsg" value="信息服务(0x8304)" onclick="sendMsg13();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg14" name="sendMsg" value="电话回拨" onclick="sendMsg14();">
+    <input type="button" id="sendMsg14" name="sendMsg" value="电话回拨(0x8400)" onclick="sendMsg14();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg15" name="sendMsg" value="设置电话本" onclick="sendMsg15();">
+    <input type="button" id="sendMsg15" name="sendMsg" value="设置电话本(0x8401)" onclick="sendMsg15();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg16" name="sendMsg" value="车辆控制" onclick="sendMsg16();">
+    <input type="button" id="sendMsg16" name="sendMsg" value="车辆控制(0x8500)" onclick="sendMsg16();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg17" name="sendMsg" value="设置圆形区域" onclick="sendMsg17();">
+    <input type="button" id="sendMsg17" name="sendMsg" value="设置圆形区域(0x8600)" onclick="sendMsg17();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg18" name="sendMsg" value="删除圆形区域" onclick="sendMsg18();">
+    <input type="button" id="sendMsg18" name="sendMsg" value="删除圆形区域(0x8601)" onclick="sendMsg18();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg19" name="sendMsg" value="设置矩形区域" onclick="sendMsg19();">
+    <input type="button" id="sendMsg19" name="sendMsg" value="设置矩形区域(0x8602)" onclick="sendMsg19();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg20" name="sendMsg" value="刪除矩形区域" onclick="sendMsg20();">
+    <input type="button" id="sendMsg20" name="sendMsg" value="刪除矩形区域(0x8603)" onclick="sendMsg20();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg21" name="sendMsg" value="设置多边形区域" onclick="sendMsg21();">
+    <input type="button" id="sendMsg21" name="sendMsg" value="设置多边形区域(0x8604)" onclick="sendMsg21();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg22" name="sendMsg" value="刪除多边形区域" onclick="sendMsg22();">
+    <input type="button" id="sendMsg22" name="sendMsg" value="刪除多边形区域(0x8605)" onclick="sendMsg22();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg23" name="sendMsg" value="设置路线" onclick="sendMsg23();">
+    <input type="button" id="sendMsg23" name="sendMsg" value="设置路线(0x8606)" onclick="sendMsg23();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg24" name="sendMsg" value="删除路线" onclick="sendMsg24();">
+    <input type="button" id="sendMsg24" name="sendMsg" value="删除路线(0x8607)" onclick="sendMsg24();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg25" name="sendMsg" value="上报驾驶员身份信息请求" onclick="sendMsg25();">
+    <input type="button" id="sendMsg25" name="sendMsg" value="上报驾驶员身份信息请求(0x8702)" onclick="sendMsg25();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg26" name="sendMsg" value="多媒体数据上传应答" onclick="sendMsg26();">
+    <input type="button" id="sendMsg26" name="sendMsg" value="多媒体数据上传应答(0x8800)" onclick="sendMsg26();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg27" name="sendMsg" value="摄像头立即拍摄命令" onclick="sendMsg27();">
+    <input type="button" id="sendMsg27" name="sendMsg" value="摄像头立即拍摄命令(0x8801)" onclick="sendMsg27();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg32" name="sendMsg" value=" 存储多媒体数据检索 " onclick="sendMsg32();">
+    <input type="button" id="sendMsg32" name="sendMsg" value=" 存储多媒体数据检索(0x8802)" onclick="sendMsg32();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg28" name="sendMsg" value="存储多媒体数据上传命令" onclick="sendMsg28();">
+    <input type="button" id="sendMsg28" name="sendMsg" value="存储多媒体数据上传命令(0x8803)" onclick="sendMsg28();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg29" name="sendMsg" value="录音开始命令" onclick="sendMsg29();">
+    <input type="button" id="sendMsg29" name="sendMsg" value="录音开始命令(0x8804)" onclick="sendMsg29();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg30" name="sendMsg" value="单条存储多媒体数据检索上传命令" onclick="sendMsg30();">
+    <input type="button" id="sendMsg30" name="sendMsg" value="单条存储多媒体数据检索上传命令(0x8805)" onclick="sendMsg30();">
     <br/>
     <br/>
-    <input type="button" id="sendMsg31" name="sendMsg" value="平台RSA公钥" onclick="sendMsg31();">
+    <input type="button" id="sendMsg31" name="sendMsg" value="平台RSA公钥(0x8A00)" onclick="sendMsg31();">
     <br/>
     <br/>
     </div>
