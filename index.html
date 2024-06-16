@@ -63,12 +63,54 @@
                  *    或者setUserDestinationPrefix 前缀 + controller的convertAndSendToUser地址一致
                  * 4. 这里演示为公告信息，所有订阅了的用户都能接受
                  */
-                stompClient.subscribe("/user/app/0x8103", function (message) {
+                stompClient.subscribe("/user/issued/0x8500", function (message) {
                     const obj = JSON.parse(message.body);
-                    alert("接收到公告信息：" + obj);
-                    console.log("接收到公告信息：" + obj.msg);
-                    alert("接收到公告信息1：" + obj.msg);
+                    console.log("车辆控制指令下发：" + obj);
+                    alert("车辆控制指令下发是否成功：" + (obj.code == 0 ? true : false));
                 });
+
+                stompClient.subscribe("/user/issued/0x8103", function (message) {
+                    const obj = JSON.parse(message.body);
+                    console.log("设置终端指令下发：" + obj);
+                    alert("设置终端指令下发是否成功：" + (obj.code == 0 ? true : false));
+                });
+
+                stompClient.subscribe("/user/issued/0x8105", function (message) {
+                    const obj = JSON.parse(message.body);
+                    console.log("终端控制指令下发：" + obj);
+                    alert("终端控制指令下发是否成功：" + (obj.code == 0 ? true : false));
+                });
+
+                stompClient.subscribe("/user/issued/0x8300", function (message) {
+                    const obj = JSON.parse(message.body);
+                    console.log("消息发送指令下发：" + obj);
+                    alert("消息发送指令下发是否成功：" + (obj.code == 0 ? true : false));
+                });
+
+                stompClient.subscribe("/user/issued/0x8302", function (message) {
+                    const obj = JSON.parse(message.body);
+                    console.log("提问下发指令下发：" + obj);
+                    alert("提问下发指令下发是否成功：" + (obj.code == 0 ? true : false));
+                });
+
+                stompClient.subscribe("/user/issued/0x8301", function (message) {
+                    const obj = JSON.parse(message.body);
+                    console.log("事件设置下发指令下发：" + obj);
+                    alert("事件设置指令下发是否成功：" + (obj.code == 0 ? true : false));
+                });
+
+                stompClient.subscribe("/user/issued/0x8401", function (message) {
+                    const obj = JSON.parse(message.body);
+                    console.log("电话本设置下发指令下发：" + obj);
+                    alert("电话本设置指令下发是否成功：" + (obj.code == 0 ? true : false));
+                });
+
+                // stompClient.subscribe("/user/app/0x8103", function (message) {
+                //     const obj = JSON.parse(message.body);
+                //     alert("接收到公告信息：" + obj);
+                //     console.log("接收到公告信息：" + obj.msg);
+                //     alert("接收到公告信息1：" + obj.msg);
+                // });
 
                 /**
                  *  查詢終端參數訂閲
@@ -80,27 +122,27 @@
                     alert("接收到公告信息1：" + obj.msg);
                 });
 
-                stompClient.subscribe("/user/app/0x8105", function (message) {
-                    const obj = JSON.parse(message.body);
-                    alert("接收到公告信息：" + obj);
-                    console.log("接收到公告信息：" + obj.msg);
-                    alert("接收到公告信息1：" + obj.msg);
-                });
-
-
-                stompClient.subscribe("/user/app/0x8107", function (message) {
-                    const obj = JSON.parse(message.body);
-                    alert("接收到公告信息：" + obj);
-                    console.log("接收到公告信息：" + obj.msg);
-                    alert("接收到公告信息1：" + obj.msg);
-                });
-
-                stompClient.subscribe("/user/app/0x8300", function (message) {
-                    const obj = JSON.parse(message.body);
-                    alert("接收到公告信息：" + obj);
-                    console.log("接收到公告信息：" + obj.msg);
-                    alert("接收到公告信息1：" + obj.msg);
-                });
+                // stompClient.subscribe("/user/app/0x8105", function (message) {
+                //     const obj = JSON.parse(message.body);
+                //     alert("接收到公告信息：" + obj);
+                //     console.log("接收到公告信息：" + obj.msg);
+                //     alert("接收到公告信息1：" + obj.msg);
+                // });
+                //
+                //
+                // stompClient.subscribe("/user/app/0x8107", function (message) {
+                //     const obj = JSON.parse(message.body);
+                //     alert("接收到公告信息：" + obj);
+                //     console.log("接收到公告信息：" + obj.msg);
+                //     alert("接收到公告信息1：" + obj.msg);
+                // });
+                //
+                // stompClient.subscribe("/user/app/0x8300", function (message) {
+                //     const obj = JSON.parse(message.body);
+                //     alert("接收到公告信息：" + obj);
+                //     console.log("接收到公告信息：" + obj.msg);
+                //     alert("接收到公告信息1：" + obj.msg);
+                // });
 
             }, function (error) {
                 console.log('STOMP: ' + error);
