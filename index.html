@@ -25,7 +25,7 @@
              * 1. 连接url为endpointChat的endpoint,对应后台WebSoccketConfig的配置
              * 2. SockJS 所处理的URL 是 "http://" 或 "https://" 模式，而不是 "ws://" or  "wss://"
              */
-            socket = new SockJS("http://localhost:9092/stomp/websocketJS?token=" + tokens);
+            socket = new SockJS("http://192.168.1.23:9092/stomp/websocketJS?token=" + tokens);
 
             // 通过sock对象监听每个事件节点，非必须,这个必须放在stompClient的方法前面
             sockHandle();
@@ -156,16 +156,14 @@
             var t8103 = {
                 "mainRoleId": "1",
                 "msgId": "0x8103",
-                "terminalPhones": ["015234829259"],
-                "terminalSettings": [{
-                    "instructCode": "0x0001",
-                    "parameterType": "UINT32",
-                    "values": "5"
-                }, {"instructCode": "0x0002", "parameterType": "UINT32", "values": "7"}, {
-                    "instructCode": "0x0013",
-                    "parameterType": "STRING",
-                    "values": "123.160.11.187"
-                }, {"instructCode": "0x0084", "parameterType": "BYTE", "values": "92"}]
+                "terminalPhones": ["107040890919"],
+                "terminalSettings": [{"instructCode": "0x0001", "parameterType": "DWORD", "values": "5"},
+                    {"instructCode": "0x0013", "parameterType": "STRING", "values": "123.160.11.187"},
+                    {"instructCode": "0x0084", "parameterType": "BYTE", "values": "92"},
+                    {"instructCode": "0x001A", "parameterType": "STRING", "values": "192.178.1.6"},
+                    {"instructCode": "0x001D", "parameterType": "STRING", "values": "192.178.1.1"},
+                    {"instructCode": "0x002E", "parameterType": "DWORD", "values": "9"},
+                ]
             };
 
             stompClient.send("/cims-gateway/0x8103", {}, JSON.stringify(t8103));
@@ -176,7 +174,7 @@
             var t8104 = {
                 "mainRoleId": "1",
                 "msgId": "0x8104",
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
             stompClient.send("/cims-gateway/0x8104", {}, JSON.stringify(t8104));
         }
@@ -186,7 +184,7 @@
             var t8106 = {
                 "mainRoleId": "1",
                 "msgId": "0x8106",
-                "terminalPhones": ["015234829259"],
+                "terminalPhones": ["107040890919"],
                 "instructCodes": "0x0001,0x0002,0x0013,0x0084"
             };
             stompClient.send("/cims-gateway/0x8106", {}, JSON.stringify(t8106));
@@ -197,7 +195,7 @@
 
             var t8105 = {
                 "msgId": "0x8105",
-                "terminalPhones": ["015234829259"],
+                "terminalPhones": ["107040890919"],
                 "mainRoleId": "1",
                 "type": 2,
                 "connectionControl": 0,
@@ -223,7 +221,7 @@
             var t8107 = {
                 "mainRoleId": "1",
                 "msgId": "0x8107",
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
 
             stompClient.send("/cims-gateway/0x8107", {}, JSON.stringify(t8107));
@@ -234,7 +232,7 @@
                 "companyId": "zs003",
                 "mainRoleId": "1",
                 "msgId": "0x8108",
-                "terminalPhones": ["015234829259"],
+                "terminalPhones": ["107040890919"],
                 "type": 0,
                 "upLength": 100,
                 "version": "1.12"
@@ -246,7 +244,7 @@
             var t8201 = {
                 "mainRoleId": "1",
                 "msgId": "0x8201",
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
 
             stompClient.send("/cims-gateway/0x8201", {}, JSON.stringify(t8201));
@@ -256,7 +254,7 @@
             let T8202 = {
                 "mainRoleId": "1",
                 "msgId": "0x8202",
-                "terminalPhones": ["015234829259"],
+                "terminalPhones": ["107040890919"],
                 "timeInterval": 5,
                 "validityTime": 10
             };
@@ -270,7 +268,7 @@
                 "mainRoleId": "1",
                 "msgId": "0x8203",
                 "seq": 1,
-                "terminalPhones": ["015234829259"],
+                "terminalPhones": ["107040890919"],
                 "type": {
                     "alarmForEntryAndExitAreas": true,
                     "alarmForEntryAndExitRoutes": false,
@@ -292,7 +290,7 @@
                 "navigationInformation": true,
                 "screenDisplay": false,
                 "terminalDisplay": true,
-                "terminalPhones": ["015234829259"],
+                "terminalPhones": ["107040890919"],
                 "terminalReading": false,
                 "textMsg": "SCA_USDT",
                 "urgent": false
@@ -305,7 +303,7 @@
                 "events": [{"id": "1", "content": "大傻逼"}, {"id": "2", "content": "SHAQUE"}],
                 "mainRoleId": "1",
                 "msgId": "0x8301",
-                "terminalPhones": ["015234829259"],
+                "terminalPhones": ["107040890919"],
                 "type": 0
             };
             stompClient.send("/cims-gateway/0x8301", {}, JSON.stringify(T8301));
@@ -318,7 +316,7 @@
                 "mainRoleId": "1",
                 "msgId": "0x8302",
                 "question": "现在高兴了吗？",
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
             stompClient.send("/cims-gateway/0x8302", {}, JSON.stringify(T8302));
         }
@@ -327,7 +325,7 @@
             let T8303 = {
                 "mainRoleId": "1",
                 "msgId": "0x8303",
-                "terminalPhones": ["015234829259"],
+                "terminalPhones": ["107040890919"],
                 "type": 1,
                 "menus": [{"type": "1", "info": "设置stock"},
                     {"type": "2", "info": "设置时间"}]
@@ -340,7 +338,7 @@
                 "info": "信息服务消息体数据格式见表49",
                 "mainRoleId": "1",
                 "msgId": "0x8304",
-                "terminalPhones": ["015234829259"],
+                "terminalPhones": ["107040890919"],
                 "type": 1
             };
 
@@ -351,7 +349,7 @@
             let T8400 = {
                 "mainRoleId": "1",
                 "msgId": "0x8400",
-                "terminalPhones": ["015234829259"],
+                "terminalPhones": ["107040890919"],
                 "type": 1,
                 "phone": "17666540206"
             };
@@ -362,7 +360,7 @@
 
         function sendMsg15() {
             let T8401 = {
-                "mainRoleId": "1", "msgId": "0x8401", "terminalPhones": ["015234829259"], "type": 2,
+                "mainRoleId": "1", "msgId": "0x8401", "terminalPhones": ["107040890919"], "type": 2,
                 "contacts": [{"type": 1, "phone": "17666540206", "name": "张三"}, {
                     "type": 1,
                     "phone": "15502131664",
@@ -374,7 +372,7 @@
         }
 
         function sendMsg16() {
-            let T8500 = {"flag": true, "mainRoleId": "1", "msgId": "0x8500", "terminalPhones": ["015234829259"]};
+            let T8500 = {"flag": true, "mainRoleId": "1", "msgId": "0x8500", "terminalPhones": ["107040890919"]};
             stompClient.send("/cims-gateway/0x8500", {}, JSON.stringify(T8500));
         }
 
@@ -403,7 +401,7 @@
                     "overSpeedDuration": 6,
                     "radius": 31,
                     "startTime": "240518201617"
-                }], "mainRoleId": "1", "msgId": "0x8600", "terminalPhones": ["015234829259"], "type": 2
+                }], "mainRoleId": "1", "msgId": "0x8600", "terminalPhones": ["107040890919"], "type": 2
             };
 
             stompClient.send("/cims-gateway/0x8600", {}, JSON.stringify(T8600));
@@ -414,7 +412,7 @@
                 "areaIds": [{"id": "1"}],
                 "mainRoleId": "1",
                 "msgId": "0x8601",
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
 
             stompClient.send("/cims-gateway/0x8601", {}, JSON.stringify(T8601));
@@ -445,7 +443,7 @@
                     "rightLatitude": 23.332744,
                     "rightLongitude": 113.33872,
                     "startTime": "240318201617"
-                }], "mainRoleId": "1", "msgId": "0x8602", "terminalPhones": ["015234829259"], "type": 1
+                }], "mainRoleId": "1", "msgId": "0x8602", "terminalPhones": ["107040890919"], "type": 1
             };
             stompClient.send("/cims-gateway/0x8602", {}, JSON.stringify(T8602));
         }
@@ -456,7 +454,7 @@
                 "areaIds": [{"id": "1"}],
                 "mainRoleId": "1",
                 "msgId": "0x8603",
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
             stompClient.send("/cims-gateway/0x8603", {}, JSON.stringify(T8601));
         }
@@ -489,7 +487,7 @@
                     "longitude": 59.332744
                 }],
                 "startTime": "240318201617",
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
 
 
@@ -502,7 +500,7 @@
                 "areaIds": [{"id": "1"}],
                 "mainRoleId": "1",
                 "msgId": "0x8605",
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
 
             stompClient.send("/cims-gateway/0x8605", {}, JSON.stringify(T8601));
@@ -539,7 +537,7 @@
                     }
                 }],
                 "startTime": "240318201617",
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
             stompClient.send("/cims-gateway/0x8606", {}, JSON.stringify(T8606));
         }
@@ -549,7 +547,7 @@
                 "areaIds": [{"id": "18"}],
                 "mainRoleId": "1",
                 "msgId": "0x8607",
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
             stompClient.send("/cims-gateway/0x8607", {}, JSON.stringify(T8601));
         }
@@ -558,7 +556,7 @@
             var t8702 = {
                 "mainRoleId": "1",
                 "msgId": "0x8702",
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
             stompClient.send("/cims-gateway/0x8702", {}, JSON.stringify(t8702));
         }
@@ -568,7 +566,7 @@
                 "mainRoleId": "1",
                 "mmId": 1712292738,
                 "msgId": "0x8800",
-                "terminalPhones": ["015234829259"],
+                "terminalPhones": ["107040890919"],
                 "ids": {"id": 2}
             };
 
@@ -591,7 +589,7 @@
                 "resolution": 1,
                 "saturate": 154,
                 "save": 1,
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
 
             stompClient.send("/cims-gateway/0x8801", {}, JSON.stringify(T8801));
@@ -601,12 +599,12 @@
         function sendMsg32() {
             let T8802 = {
                 "channelId": 1,
-                "endTime": "240325235959",
+                "endTime": "240618230000",
                 "eventCode": 2,
                 "mainRoleId": "1",
                 "msgId": "0x8802",
-                "startTime": "240325000000",
-                "terminalPhones": ["015234829259"],
+                "startTime": "240618060000",
+                "terminalPhones": ["107040890919"],
                 "type": 0
             };
 
@@ -617,14 +615,14 @@
         function sendMsg28() {
             let T8803 = {
                 "channel": 1,
-                "endTime": "240325235959",
+                "endTime": "240618230000",
                 "eventNumber": 2,
                 "isDelete": 0,
                 "mainRoleId": "1",
                 "mediaType": 0,
                 "msgId": "0x8803",
-                "startTime": "240325000000",
-                "terminalPhones": ["015234829259"]
+                "startTime": "240618060000",
+                "terminalPhones": ["107040890919"]
             };
 
             stompClient.send("/cims-gateway/0x8803", {}, JSON.stringify(T8803));
@@ -638,7 +636,7 @@
                 "msgId": "0x8804",
                 "rate": 2,
                 "save": 0,
-                "terminalPhones": ["015234829259"],
+                "terminalPhones": ["107040890919"],
                 "time": 8
             };
 
@@ -652,7 +650,7 @@
                 "id": "1712156501",
                 "mainRoleId": "1",
                 "msgId": "0x8805",
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
 
             stompClient.send("/cims-gateway/0x8805", {}, JSON.stringify(T8805));
@@ -664,27 +662,28 @@
                 "n": "A49D66605EF58F9D15BEA76DE80A98BBAFBE61ACB2D0924510B09D43660B8DBCCEAF0D4502A9793A0C0B9C609C7",
                 "mainRoleId": "1",
                 "msgId": "0x8A00",
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
 
             stompClient.send("/cims-gateway/0x8A00", {}, JSON.stringify(T8805));
         }
 
         function sendMsg33() {
-            let T9003 = {"mainRoleId": "1", "msgId": "0x9003", "terminalPhones": ["015234829259"]};
+            let T9003 = {"mainRoleId": "1", "msgId": "0x9003", "terminalPhones": ["107040890919"]};
             stompClient.send("/cims-gateway/0x9003", {}, JSON.stringify(T9003));
         }
 
         function sendMsg34() {
             let T9101 = {
-                "channelNo": 1,
-                "ip": "100.64.225.158",
+                "channelNo": 2,
+                "ip": "192.168.1.23",
                 "mainRoleId": "1",
                 "mediaType": 0,
                 "msgId": "0x9101",
                 "streamType": 0,
                 "tcpPort": 1078,
-                "terminalPhones": ["015234829259"],
+                 // "terminalPhones": ["503070850526"],
+                "terminalPhones": ["107040890919"],
                 "udpPort": 0
             };
 
@@ -694,13 +693,14 @@
 
         function sendMsg35() {
             let T9102 = {
-                "channelNo": 1,
-                "closeType": 1,
-                "command": 2,
+                "channelNo": 2, //逻辑通道号
+                "closeType": 1, //关闭音视频类型
+                "command": 0, //控制指令
                 "mainRoleId": "1",
                 "msgId": "0x9102",
                 "streamType": 1,
-                "terminalPhones": ["015234829259"]
+                // "terminalPhones": ["107040890919"]
+                "terminalPhones": ["503070850526"]
             }
             stompClient.send("/cims-gateway/0x9102", {}, JSON.stringify(T9102));
         }
@@ -711,7 +711,7 @@
                 "mainRoleId": "1",
                 "msgId": "0x9105",
                 "packetLossRate": 34.443,
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
             stompClient.send("/cims-gateway/0x9105", {}, JSON.stringify(T9105));
         }
@@ -730,7 +730,7 @@
                 "storageType": 2,
                 "streamType": 1,
                 "tcpPort": 1078,
-                "terminalPhones": ["015234829259"],
+                "terminalPhones": ["107040890919"],
                 "udpPort": 0
             }
             stompClient.send("/cims-gateway/0x9201", {}, JSON.stringify(T9201));
@@ -744,7 +744,7 @@
                 "playbackMode": 3,
                 "playbackSpeed": 2,
                 "playbackTime": "240408121212",
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
 
             stompClient.send("/cims-gateway/0x9202", {}, JSON.stringify(T9202));
@@ -760,7 +760,7 @@
                 "startTime": "240408121212",
                 "storageType": 1,
                 "streamType": 1,
-                "terminalPhones": ["015234829259"],
+                "terminalPhones": ["107040890919"],
                 "warnBit1": "178358420",
                 "warnBit2": "178358420"
             };
@@ -783,7 +783,7 @@
                 "startTime": "240408121212",
                 "storageType": 1,
                 "streamType": 1,
-                "terminalPhones": ["015234829259"],
+                "terminalPhones": ["107040890919"],
                 "username": "admin",
                 "warnBit1": "178358420",
                 "warnBit2": "178358420"
@@ -798,7 +798,7 @@
                 "mainRoleId": "1",
                 "msgId": "0x9207",
                 "responseSerialNo": 0,
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
 
             stompClient.send("/cims-gateway/0x9207", {}, JSON.stringify(T9207));
@@ -811,7 +811,7 @@
                 "mainRoleId": "1",
                 "msgId": "0x9301",
                 "speed": 26,
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
             stompClient.send("/cims-gateway/0x9301", {}, JSON.stringify(T9301));
         }
@@ -822,7 +822,7 @@
                 "mainRoleId": "1",
                 "msgId": "0x9302",
                 "param": 1,
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
 
             stompClient.send("/cims-gateway/0x9302", {}, JSON.stringify(T9302));
@@ -834,7 +834,7 @@
                 "mainRoleId": "1",
                 "msgId": "0x9303",
                 "param": 1,
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
 
             stompClient.send("/cims-gateway/0x9303", {}, JSON.stringify(T9302));
@@ -846,7 +846,7 @@
                 "mainRoleId": "1",
                 "msgId": "0x9304",
                 "param": 1,
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
 
             stompClient.send("/cims-gateway/0x9304", {}, JSON.stringify(T9302));
@@ -858,7 +858,7 @@
                 "mainRoleId": "1",
                 "msgId": "0x9305",
                 "param": 1,
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
 
             stompClient.send("/cims-gateway/0x9305", {}, JSON.stringify(T9302));
@@ -870,7 +870,7 @@
                 "mainRoleId": "1",
                 "msgId": "0x9306",
                 "param": 1,
-                "terminalPhones": ["015234829259"]
+                "terminalPhones": ["107040890919"]
             };
 
             stompClient.send("/cims-gateway/0x9306", {}, JSON.stringify(T9302));

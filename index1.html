@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+
+    <script>
+        function sendMsg() {
+            var graphic = {
+                "id": 8,
+                "path": "W3siTG9uZ2l0dWRlIjoxMTYuMzgzNjE2ODkzMjQ2NCwiTGF0aXR1ZGUiOjM5Ljg5NjU4ODk4MDUyMjIyfSx7IkxvbmdpdHVkZSI6MTE2LjM3ODMyMDMxMDE2MDc5LCJMYXRpdHVkZSI6MzkuOTAwNjY2NjMwMDM2MDh9LHsiTG9uZ2l0dWRlIjoxMTYuMzgzNjE2ODkzMjQ2NCwiTGF0aXR1ZGUiOjM5LjkwNzEyMzk1OTk0NjA4NH0seyJMb25naXR1ZGUiOjExNi4zOTQxNTE4NzI2NzAyOCwiTGF0aXR1ZGUiOjM5LjkwNzEyMzk1OTk0NjA4NH0seyJMb25naXR1ZGUiOjExNi4zOTQ1NjE2NzM3ODE2MSwiTGF0aXR1ZGUiOjM5LjkwMTgyODU2MDU2MDc3fSx7IkxvbmdpdHVkZSI6MTE2LjM5NDE1MTg3MjY3MDI4LCJMYXRpdHVkZSI6MzkuODk2NTg4OTgwNTIyMjJ9LHsiTG9uZ2l0dWRlIjoxMTYuMzg5Njc0ODkxODA3MzMsIkxhdGl0dWRlIjozOS44OTM4NTc0NzMyODQxNjR9XQ==",
+                "min_longitude": 116.37832,
+                "min_latitude": 39.893856,
+                "max_longitude": 116.39456,
+                "max_latitude": 39.907124,
+                "type": "polygon",
+                "name": "多边形区域33",
+                "types": 0,
+                "circle_redius": 0,
+                "main_role_id": 1
+            }
+
+            $.ajax({
+                headers: {
+                    "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOjE4MDA3OTY1NjYzMDI4OTYxMzAsInJuU3RyIjoibGF5RVBKYzRtRWM2ZjNYakJ4NkNFU2dyRDZRV3VGUUciLCJ1c2VyX25hbWUiOiJ0ZXN0MSIsImNvbXBhbnlfaWQiOjEsInJvbGVfaWQiOjEwMDAxfQ.xzpW1A012EjGnGweYPnaHRocnn-nek2X3vHiLVD20Co"
+                },
+                type: "POST",
+                dataType: 'json',
+                url: "http://127.0.0.1:9091/api/graphic/update",
+                contentType: "application/json",
+                data: JSON.stringify(graphic),
+                success: function (response) {
+                    if (response.code == 0) {
+                        $.ajax({
+                            headers: {
+                                "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOjE4MDA3OTY1NjYzMDI4OTYxMzAsInJuU3RyIjoibGF5RVBKYzRtRWM2ZjNYakJ4NkNFU2dyRDZRV3VGUUciLCJ1c2VyX25hbWUiOiJ0ZXN0MSIsImNvbXBhbnlfaWQiOjEsInJvbGVfaWQiOjEwMDAxfQ.xzpW1A012EjGnGweYPnaHRocnn-nek2X3vHiLVD20Co"
+                            },
+                            type: "GET",
+                            url: "http://127.0.0.1:9091/api/graphic/detail?asc=&columns=&current=1&id=&isAsc=&size=10",
+                            contentType: "application/json",
+                            success: function (response) {
+                                if (response.code == 0) {
+                                    alert(" 1:" + response.data[0].name + " , 2:" + response.data[1].name);
+                                }
+                            },
+                            error: function (error) {
+                                alert(error);
+                            }
+                        });
+                    }
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
+
+        }
+
+        function sendMsg1() {
+            $.ajax({
+                headers: {
+                    "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOjE4MDA3OTY1NjYzMDI4OTYxMzAsInJuU3RyIjoibGF5RVBKYzRtRWM2ZjNYakJ4NkNFU2dyRDZRV3VGUUciLCJ1c2VyX25hbWUiOiJ0ZXN0MSIsImNvbXBhbnlfaWQiOjEsInJvbGVfaWQiOjEwMDAxfQ.xzpW1A012EjGnGweYPnaHRocnn-nek2X3vHiLVD20Co"
+                },
+                type: "GET",
+                url: "http://127.0.0.1:9091/api/graphic/detail?asc=&columns=&current=1&id=&isAsc=&size=10",
+                contentType: "application/json",
+                success: function (response) {
+                    if (response.code == 0) {
+                        alert(" 1:" + response.data[0].name + " , 2:" + response.data[1].name);
+                    }
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
+        }
+    </script>
+
+</head>
+<body>
+<div class="wrapper">
+    <br/>
+    <input type="button" id="sendMsg" name="sendMsg" value="修改*查询" onclick="sendMsg();">
+
+    <br/>
+    <!--    <input type="button" id="sendMsg1" name="sendMsg1" value="修改*查询" onclick="sendMsg1();">-->
+
+</div>
+</body>
+</html>
