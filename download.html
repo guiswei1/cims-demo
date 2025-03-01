@@ -6,20 +6,53 @@
 </head>
 <body>
 <button id="downloadBtn" class="btn" >开始下载</button>
+<div id="progressBar" style="width: 300px; height: 20px; background: #eee; display: none;">
+    <div id="progress" style="width: 0%; height: 100%; background: #4CAF50;"></div>
+</div>
+<p id="progressText">0%</p>
 
 <script>
     document.getElementById('downloadBtn').onclick = function() {
-        const form = document.createElement('form');
-        form.method = 'GET';
-        form.action = 'http://127.0.0.1:9091/api/upload/download';
+        const fileName = '/jt1078/010260000002/2025-02-27/250225120334-250225121334-1-0-1-1/B20250219070603.ts';
+        const progressBar = document.getElementById('progressBar');
+        const progress = document.getElementById('progress');
+        const progressText = document.getElementById('progressText');
 
-        const input = document.createElement('input');
-        input.name = 'fileName';
-        input.value = '/jt1078/010260000002/2025-02-27/250225120334-250225121334-1-0-1-1/B20250219070603.ts';
+        // 显示进度条
+        progressBar.style.display = 'block';
 
-        form.appendChild(input);
-        document.body.appendChild(form);
-        form.submit();
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `http://127.0.0.1:9091/api/upload/download?fileName=${encodeURIComponent(fileName)}`, true);
+        xhr.responseType = 'blob'; // 重要：接收二进制数据
+
+        // 进度事件
+        xhr.onprogress = function(e) {
+            if (e.lengthComputable) {
+                const percent = (e.loaded / e.total * 100).toFixed(2);
+                progress.style.width = percent + '%';
+                progressText.textContent = percent + '%';
+            }
+        };
+
+        // 完成处理
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                const blob = xhr.response;
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = fileName;
+                link.click();
+                window.URL.revokeObjectURL(link.href); // 释放内存
+            }
+        };
+
+        // 错误处理
+        xhr.onerror = function() {
+            alert('下载失败');
+            progressBar.style.display = 'none';
+        };
+
+        xhr.send();
     };
 </script>
 <style>
