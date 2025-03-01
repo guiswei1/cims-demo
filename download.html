@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>下载</title>
+</head>
+<body>
+<button id="downloadBtn" class="btn" >开始下载</button>
+
+<script>
+    document.getElementById('downloadBtn').onclick = function() {
+        const form = document.createElement('form');
+        form.method = 'GET';
+        form.action = 'http://127.0.0.1:9091/api/upload/download';
+
+        const input = document.createElement('input');
+        input.name = 'fileName';
+        input.value = '/jt1078/010260000002/2025-02-27/250225120334-250225121334-1-0-1-1/B20250219070603.ts';
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    };
+</script>
+<style>
+    .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+</style>
+</body>
+</html>
