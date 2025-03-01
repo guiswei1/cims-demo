@@ -5,61 +5,124 @@
     <title>下载</title>
 </head>
 <body>
-<button id="downloadBtn" class="btn" >开始下载</button>
-<div id="progressBar" style="width: 300px; height: 20px; background: #eee; display: none;">
-    <div id="progress" style="width: 0%; height: 100%; background: #4CAF50;"></div>
+<button id="downloadBtn" style="padding: 10px 20px; cursor: pointer;"    >开始下载</button>
+<div class="progress-container">
+    <div class="progress-fill"></div>
+    <div class="progress-text">0%</div>
 </div>
-<p id="progressText">0%</p>
 
 <script>
     document.getElementById('downloadBtn').onclick = function() {
+        const container = document.querySelector('.progress-container');
+        const progress = document.querySelector('.progress-fill');
+        const progressText = document.querySelector('.progress-text');
         const fileName = '/jt1078/010260000002/2025-02-27/250225120334-250225121334-1-0-1-1/B20250219070603.ts';
-        const progressBar = document.getElementById('progressBar');
-        const progress = document.getElementById('progress');
-        const progressText = document.getElementById('progressText');
 
-        // 显示进度条
-        progressBar.style.display = 'block';
+        // 添加加载动画
+        container.classList.add('loading');
 
         const xhr = new XMLHttpRequest();
         xhr.open('GET', `http://127.0.0.1:9091/api/upload/download?fileName=${encodeURIComponent(fileName)}`, true);
-        xhr.responseType = 'blob'; // 重要：接收二进制数据
+        xhr.responseType = 'blob';
 
-        // 进度事件
+        // 进度更新
         xhr.onprogress = function(e) {
             if (e.lengthComputable) {
-                const percent = (e.loaded / e.total * 100).toFixed(2);
+                const percent = Math.floor((e.loaded / e.total) * 100);
                 progress.style.width = percent + '%';
                 progressText.textContent = percent + '%';
             }
         };
 
-        // 完成处理
         xhr.onload = function() {
+            container.classList.remove('loading');
             if (xhr.status === 200) {
-                const blob = xhr.response;
-                const link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-                link.download = fileName;
-                link.click();
-                window.URL.revokeObjectURL(link.href); // 释放内存
+                // 完成时短暂显示100%
+                progress.style.width = '100%';
+                progressText.textContent = '100%';
+
+                // 延迟500ms后下载文件
+                setTimeout(() => {
+                    const blob = xhr.response;
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(link.href);
+                }, 500);
             }
         };
 
-        // 错误处理
         xhr.onerror = function() {
-            alert('下载失败');
-            progressBar.style.display = 'none';
+            container.classList.remove('loading');
+            progress.style.backgroundColor = '#ff4444';
+            progressText.textContent = '下载失败';
         };
 
         xhr.send();
     };
 </script>
 <style>
-    .btn:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
+    /* 进度条容器 */
+    .progress-container {
+        width: 300px;
+        height: 24px;
+        background: #f0f0f0;
+        border-radius: 12px;
+        margin: 20px 0;
+        position: relative;
+        overflow: hidden;
+        display: block; /* 默认显示 */
     }
+
+    /* 进度条填充部分 */
+    .progress-fill {
+        height: 100%;
+        background: #4CAF50;
+        width: 0%;
+        transition: width 0.3s ease;
+    }
+
+    /* 进度文本 */
+    .progress-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #333;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        font-weight: bold;
+        text-shadow: 0 1px 1px rgba(255,255,255,0.5);
+    }
+
+    /* 加载动画 */
+    .progress-container::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.3) 50%,
+        rgba(255,255,255,0) 100%);
+        animation: loadingShimmer 2s infinite;
+        opacity: 0;
+    }
+
+    @keyframes loadingShimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+
+    /* 加载中状态 */
+    .progress-container.loading::before {
+        opacity: 1;
+    }
+
+
 </style>
 </body>
 </html>
