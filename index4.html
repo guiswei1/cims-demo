@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/sockjs.js"></script>
+    <script src="js/stomp.js"></script>
+    <script>
+        let stompClient = null, socket = null;
+        let isConnected = false;
+        let isSubscribed = false;
+        const serverUrl = "http://117.50.226.149:9092/stomp/websocketJS";
+        const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOjEsInJuU3RyIjoidFROeFB4bkVVRWVTeEpQRFkxd1pVVTQ2Sk45R2dWOW8iLCJ1c2VyX25hbWUiOiJhZG1pbiIsImNvbXBhbnlfaWQiOjEsInJvbGVfaWQiOjEwMDAxfQ.FOxe2WqcVu3ZqgDKV4fTixoPpjqczeS5mZDC_AAI8RI';
+        const username = 'admin';
+
+        $(document).ready(function () {
+            if (window.WebSocket) {
+                websocketConfig();
+            } else {
+                showAlert("错误", "浏览器不支持WebSocket技术通讯.");
+            }
+        });
+
+        // WebSocket 配置
+        function websocketConfig() {
+            socket = new SockJS(`${serverUrl}?token=${token}`);
+            sockHandle();
+            stompClient = Stomp.over(socket);
+            stompClient.heartbeat.outgoing = 10000;
+            stompClient.heartbeat.incoming = 0;
+
+            const headers = {"userName": username};
+
+            stompClient.connect(headers, onConnect, onError);
+        }
+
+        // STOMP 连接成功后的回调函数
+        function onConnect(frame) {
+            console.log('STOMP: Connected');
+            isConnected = true;
+        }
+
+        // STOMP 连接失败后的回调函数
+        function onError(error) {
+            console.log('STOMP: ' + error);
+            showAlert("连接失败", "STOMP连接失败，正在尝试重新连接...");
+            setTimeout(websocketConfig, 10000); // 重新连接
+        }
+
+        // 发送消息
+        function sendMsg27() {
+            if (isConnected) {
+                if (!isSubscribed) {
+                    subscribeToEndpoint("/user/issued/0x8802/010260000002/128248712");
+                }
+
+                const t8803 = {
+                    "channel": 1,
+                    "endTime": "250206171032",
+                    "eventNumber": 0,
+                    "isDelete": 0,
+                    "mainRoleId": "1",
+                    "mediaType": 0,
+                    "msgId": "0x8803",
+                    "startTime": "250206161032",
+                    "terminalPhones": ["010260000002"]
+                };
+                stompClient.send("/cims-gateway/0x8803", {}, JSON.stringify(t8803));
+            } else {
+                showAlert("WebSocket未连接", "请稍后重试.");
+            }
+        }
+
+        // 订阅某个STOMP端点
+        function subscribeToEndpoint(endpoint) {
+            stompClient.subscribe(endpoint, function (message) {
+                const obj = JSON.parse(message.body);
+                console.log("立即拍照下发，0x0801： " + obj);
+                showAlert("立即拍照下发", obj.code === 0 ? "成功" : "失败");
+            });
+            isSubscribed = true;
+        }
+
+        // WebSocket 连接事件处理
+        function sockHandle() {
+            socket.onopen = function () {
+                console.log("------连接成功------");
+            };
+
+            socket.onmessage = function (event) {
+                console.log('-------收到的消息: ' + event.data);
+            };
+
+            socket.onclose = function () {
+                console.log('--------关闭连接: connection closed.------');
+                resetConnectionState();
+            };
+
+            socket.onerror = function () {
+                showAlert("连接错误", "网络超时或通讯地址错误.");
+                disconnect();
+            };
+        }
+
+        // 重置连接状态
+        function resetConnectionState() {
+            isConnected = false;
+            isSubscribed = false;
+        }
+
+        // 关闭websocket
+        function disconnect() {
+            if (socket !== null) {
+                socket.close();
+                socket = null;
+                resetConnectionState();
+            }
+        }
+
+        // 简单的弹窗函数
+        function showAlert(title, message) {
+            alert(`${title}: ${message}`);
+        }
+    </script>
+</head>
+<body>
+<br/>
+<input type="button" id="sendMsg27" name="sendMsg" value="拍照检索(0x8802)" onclick="sendMsg27();">
+</body>
+</html>

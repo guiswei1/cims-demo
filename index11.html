@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>车辆控制指令测试</title>
+    <script src="js/sockjs.js"></script>
+    <script src="js/stomp.js"></script>
+    <script>
+        (function () {
+            // 配置信息
+            const serverUrl = "http://117.50.226.149:8093/ws";
+            const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOjE4ODE2MjQxMTA1MTQxMTA0NjUsInJuU3RyIjoiM3VFNVJKc3JBV3pMb1dlTnRXMW1uSHFTckdPaUNjVEQiLCJ1c2VyX25hbWUiOiJ0ZXN0IiwiY29tcGFueV9pZCI6MSwicm9sZV9pZCI6MTAwMDF9._eehSI2SeNcg_4ZWC6k5KZEGMUlEzaVgMWye3FpHEtE";
+
+            // 连接状态
+            let isConnected = false;
+            let stompClient = null;
+            let reconnectAttempts = 0;
+            const maxReconnectAttempts = 5;
+
+            // 初始化连接
+            function initWebSocket() {
+                const socket = new SockJS(serverUrl, null, { // 移除了?token参数
+                    transports: ['websocket', 'xhr-streaming']
+                });
+                stompClient = Stomp.over(socket);
+                stompClient.connect({'Authorization': 'Bearer ' + token}, // 认证头部,
+                    function (frame) {
+                        console.log('连接成功:', frame);
+                        isConnected = true;
+                        reconnectAttempts = 0;
+                        document.getElementById('sendMsg16').disabled = false;
+
+                        // // 订阅消息
+                        // stompClient.subscribe("/user/issued/0x8500/010260000001", handleMessage);
+                    },
+                    function (error) {
+                        console.error('连接失败:', error);
+                        isConnected = false;
+                        document.getElementById('sendMsg16').disabled = true;
+                        handleReconnect();
+                    }
+                );
+
+                // 心跳检测
+                stompClient.heartbeat.outgoing = 10000;
+                stompClient.heartbeat.incoming = 0;
+            }
+
+
+            // 发送指令
+            window.sendMsg16 = function () {
+                if (!isConnected) {
+                    alert('请等待连接建立完成');
+                    return;
+                }
+
+                let T9201 = {
+                    "ip": "117.50.226.149",
+                    "tcpPort": 1078,
+                    "channelNo": 1,
+                    "udpPort": 0,
+                    "mediaType": 0,         //音视频资源类型
+                    "streamType": 1,      //码流类型
+                    "storageType":1,     //存储器类型
+                    "playbackMode":0,    //回放方式
+                    "playbackSpeed":0,   //快进或快退倍数
+                    "startTime":"250225120334",
+                    "endTime":"250225121034",
+                    "mainRoleId": "1",
+                    "msgId": "0x9201",
+                    "terminalPhones": ["010260000002"]
+                };
+
+                stompClient.send(
+                    "/cims-gateway/0x9201",
+                    {},
+                    JSON.stringify(T9201)
+                );
+            }
+
+            // 重连机制
+            function handleReconnect() {
+                if (reconnectAttempts < maxReconnectAttempts) {
+                    reconnectAttempts++;
+                    console.log(`尝试重新连接 (${reconnectAttempts}/${maxReconnectAttempts})`);
+                    setTimeout(initWebSocket, Math.min(3000, reconnectAttempts * 1000));
+                } else {
+                    console.error('达到最大重连次数，停止尝试');
+                }
+            }
+
+            // 初始化页面时建立连接
+            initWebSocket();
+
+            // 窗口关闭时断开连接
+            window.onbeforeunload = function () {
+                if (stompClient && isConnected) {
+                    stompClient.disconnect();
+                    console.log('连接已主动断开');
+                }
+            };
+        })();
+    </script>
+</head>
+<body>
+<br/>
+<input
+        type="button"
+        id="sendMsg16"
+        value="录像回放(0x9201)"
+        onclick="sendMsg16()"
+        disabled
+        style="padding: 10px 20px; cursor: pointer;"
+>
+</body>
+</html>
