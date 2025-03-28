@@ -32,10 +32,10 @@
                         document.getElementById('sendMsg16').disabled = false;
 
                         // 订阅消息
-                        stompClient.subscribe("/user/issued/0x9206/010260000002/250301120646-250301121646", handleMessage);
+                        stompClient.subscribe("/user/issued/0x9206/010260000002/250305121214-250305122215", handleMessage);
 
                         // 订阅上传消息
-                        stompClient.subscribe("/user/issued/0x1206/010260000002/250301120646-250301121646", handleMessage1);
+                        stompClient.subscribe("/user/issued/0x1206/010260000002/250305121214-250305122215", handleMessage1);
                     },
                     function (error) {
                         console.error('连接失败:', error);
@@ -80,11 +80,11 @@
 
                 const T8500 = {
                     "channelNo": 1,
-                    "endTime": "250301121646",
+                    "endTime": "250305122215",
                     "mainRoleId": "1",
                     "mediaType": 0,   //音视频资源类型
                     "msgId": "0x9206",
-                    "startTime": "250301120646",
+                    "startTime": "250305121214",
                     "storageType": 1, //存储器类型
                     "streamType": 1,  ////码流类型
                     "terminalPhones": ["010260000002"],
