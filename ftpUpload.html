@@ -1,0 +1,57 @@
+<!-- src/main/resources/static/index.html -->
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FTP文件监控</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+<div id="progress-container"></div>
+
+<script>
+    const stompClient = Stomp.over(new SockJS('http://localhost:9095/ws'));
+
+    stompClient.connect({}, () => {
+        stompClient.subscribe('/topic/file-progress', (message) => {
+            const progress = JSON.parse(message.body);
+            updateProgress(progress);
+        });
+
+        stompClient.subscribe('/topic/file-complete', (message) => {
+            const data = JSON.parse(message.body);
+            markCompleted(data.path);
+        });
+    });
+
+    function updateProgress(progress) {
+        let container = document.getElementById(`file-${progress.filePath}`);
+        if (!container) {
+            container = document.createElement('div');
+            container.id = `file-${progress.filePath}`;
+            container.innerHTML = `
+                    <h3>${progress.filePath}</h3>
+                    <progress value="${progress.progress}" max="100"></progress>
+                    <span>${progress.progress}% (${formatBytes(progress.currentSize)}/${formatBytes(progress.maxSize)})</span>
+                `;
+            document.getElementById('progress-container').appendChild(container);
+        } else {
+            container.querySelector('progress').value = progress.progress;
+            container.querySelector('span').textContent =
+                `${progress.progress}% (${formatBytes(progress.currentSize)}/${formatBytes(progress.maxSize)})`;
+        }
+    }
+
+    function formatBytes(bytes) {
+        const units = ['B', 'KB', 'MB', 'GB'];
+        let unitIndex = 0;
+        while (bytes >= 1024 && unitIndex < units.length-1) {
+            bytes /= 1024;
+            unitIndex++;
+        }
+        return `${bytes.toFixed(1)}${units[unitIndex]}`;
+    }
+</script>
+</body>
+</html>

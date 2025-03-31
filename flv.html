@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FLV直播播放器</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f0f0f0;
+      margin: 20px;
+    }
+    #player-container {
+      width: 800px;
+      background: #000;
+    }
+    #videoElement {
+      width: 100%;
+    }
+    .controls {
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 0 5px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+    button.stop {
+      background-color: #f44336;
+    }
+  </style>
+</head>
+<body>
+<h2>FLV直播播放器</h2>
+<div id="player-container">
+  <video id="videoElement" controls></video>
+</div>
+<div class="controls">
+  <button onclick="play()">开始播放</button>
+  <button onclick="stop()" class="stop">停止播放</button>
+</div>
+
+<!-- 引入flv.js -->
+<script src="https://cdn.bootcdn.net/ajax/libs/flv.js/1.6.2/flv.min.js"></script>
+
+<script>
+  let flvPlayer = null;
+
+  function play() {
+    if (flvPlayer) return;
+
+    // 检查浏览器支持
+    if (flvjs.isSupported()) {
+      const videoElement = document.getElementById('videoElement');
+
+      // 创建FLV播放器（需要替换为你的推流地址）
+      flvPlayer = flvjs.createPlayer({
+        type: 'flv',
+        url: 'http://117.50.226.149:8001/live?app=live&stream=010260000002-1' // 例如：'http://example.com/live/stream.flv'
+      });
+
+      // 关联视频元素
+      flvPlayer.attachMediaElement(videoElement);
+      flvPlayer.load();
+      flvPlayer.play();
+
+      // 错误监听
+      flvPlayer.on(flvjs.Events.ERROR, (errType, errDetail) => {
+        console.error('播放错误:', errType, errDetail);
+        stop();
+      });
+    } else {
+      alert('当前浏览器不支持FLV播放，请使用Chrome/Firefox等现代浏览器');
+    }
+  }
+
+  function stop() {
+    if (flvPlayer) {
+      flvPlayer.pause();
+      flvPlayer.unload();
+      flvPlayer.detachMediaElement();
+      flvPlayer.destroy();
+      flvPlayer = null;
+      const videoElement = document.getElementById('videoElement');
+      videoElement.src = '';
+    }
+  }
+
+  // 页面关闭前自动停止播放
+  window.addEventListener('beforeunload', stop);
+</script>
+</body>
+</html>
