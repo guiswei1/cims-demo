@@ -56,7 +56,7 @@
 
                 let T9201 = {
                     "ip": "117.50.226.149",
-                    "tcpPort": 1078,
+                    "tcpPort": 1079,
                     "channelNo": 1,
                     "udpPort": 0,
                     "mediaType": 0,         //音视频资源类型
@@ -75,6 +75,30 @@
                     "/cims-gateway/0x9201",
                     {},
                     JSON.stringify(T9201)
+                );
+            }
+
+            // 发送指令
+            window.sendMsg17 = function () {
+                if (!isConnected) {
+                    alert('请等待连接建立完成');
+                    return;
+                }
+
+                let T9202 = {
+                    "channelNo": 1,   //逻辑通道号
+                    "mainRoleId": "1",
+                    "msgId": "0x9202",
+                    "playbackMode": 2,     //回放控制
+                    "playbackSpeed": 0,  //快进或快退倍数
+                    "playbackTime": "240408121212",  //拖动回放位置
+                    "terminalPhones": ["010260000002"]
+                };
+
+                stompClient.send(
+                    "/cims-gateway/0x9202",
+                    {},
+                    JSON.stringify(T9202)
                 );
             }
 
@@ -110,6 +134,15 @@
         value="录像回放(0x9201)"
         onclick="sendMsg16()"
         disabled
+        style="padding: 10px 20px; cursor: pointer;"
+>
+</br>
+</br>
+<input
+        type="button"
+        id="sendMsg17"
+        value="关闭回放(0x9202)"
+        onclick="sendMsg17()"
         style="padding: 10px 20px; cursor: pointer;"
 >
 </body>
